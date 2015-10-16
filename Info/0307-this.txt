@@ -1,0 +1,25 @@
+ this keyword
+ --------------------------------------------------------------
+ 1. to qualify the member of the class
+ 2. to invoke a constructor from another constructor of the same     class.
+
+Example:
+public class Student {
+   private int roll;
+   private String name;
+
+  public Student(int roll, String name) {   //constructor-#1
+     this.roll = roll;
+     this.name = name;
+  }
+  public Student(String name,int roll) {   //constructor-#2
+     this(roll,name); //invoke #1
+  }
+  public Student() {  //constructor-#3
+      this(0,""); //Invoke #1
+  }
+  ....getter/setter....
+}
+
+
+

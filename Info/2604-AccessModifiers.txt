@@ -1,0 +1,442 @@
+ Access modifiers/specifiers
+ ----------------------------------------------------------------
+ Access modifiers are used to hide/show (it means set visibility) the  Types and Type members.
+
+ In Java we have four access modifiers:
+
+  1. public - The "public" entities have no access restriction. They 
+		can be visible inside or outside the package or type.
+
+  2. private - The "private" entities are only visible inside the type
+		in which they are created/declared.
+  3.         - The "package-level-private" -- this modifier has no 		explict name but it is called "package level private".
+
+		These entities are only visible inside the package in 		which they are created. 
+
+		These entities are not visible outside its package.
+
+ 4. protected - Protected entities have same access as package-level
+		private but these are accessible/visible in sub-		classes.
+
+Access modifiers must be used with class, interface, enum, annotation, members of class/interface/enum/annotations. They cannot be used with local variables and package name.
+
+Access of TYpes
+---------------
+Top level TYPES ( types which are not nested ) can have either "public" or "package-level-private" access. Default is "package-level-private".
+
+Public types must be saved into separate .java file whose file name and class/type name must be same.
+
+e.g
+MyApp.java
+----------
+package in.pqr;
+public class MyApp {}
+//but there may be non-public types
+class A{} //valid
+class B{} 
+
+Access modifiers of members/nested types
+----------------------------------------
+
+TypeName	Default Access		We can change
+----------------------------------------------------
+ class		package-level-private	public, private, protected
+					and package-level-private
+ interface	public			Can't Change
+ enum		public			public, private, 
+					package-level-private. Enum
+					cannot support inheritance so
+					"protected" is not used.
+ annotation	public			Can't change
+
+ Storage modifiers
+---------------------------------------------------------------
+ Storage modifiers affect the memory storage and life of object/value.
+
+ 1. static - It creates global or application scope variable.
+		It means once create variable and it is alive till 
+		JVM (program) is running.
+ 2. final  - It creates a constant variable - a variable whose value
+		cannot be changed during program execution.
+
+ 3. transient - It instructs the JVM to not save the specified "data" in secondary whose modifier is "transient".
+ 		e.g  transient int no  = 10;
+ 4. volatile  - It instructs the JVM that the changes occurs 		in volatile variable must be immediate update to all
+		running threads.
+
+Memory architecture of JVM (Java Program)
+====================================================================
+When we run/launch a Java program (e.g >java Sample ), the Java Virtual Machine's memory manager service program allocate 1 MB Memory (RAM) for running program. This 1 MB memory is called "Stack Frame Memory" and it is used for following purposes:
+    1. For local variables
+    2. Method parameters
+    3. Method calls and
+    4. Method return data
+
+When we want to store data into memory other than "Stack Frame" or the our data are not fit into "Stack Frame" then we must have to instruct the JVM for more memory.  This kind of memory is called "Heap Frame".
+The "new" keyword in Java is used to instruct the JVM about more memory and its size can be vary from 1 byte to 4GB (or more).
+
+Java TYPES System
+------------------
+As per memory model, Java platform TYPES are designed. In fact Java platform has two set of datatypes:
+
+   1. Primitive types - These Eight (8) types - byte,short,int,long,
+			char,boolean,float and double are compiler's
+			datatype.
+   2. Core API       - Core or Foundation Library classes/types. The
+			core API consists classes, interfaces, enums
+			and annotations kind of datatypes.
+			
+			Core API classes are designed using "Unified
+			Programming Model" - a standards to develop
+			the libraries. .Net Framework, Visual C++, 
+			Java's platforms strictly follow the
+			"Unified Programming Model".
+
+   Unified programming model states:
+     1. Each & every class must have one and only one direct super
+	class.
+
+	In Java, if we define a class without super class name then
+	the compiler automatically extends the "java.lang.Object" 	class.			
+	
+	e.g
+	public class Hello {} 
+              is same as 
+        public class Hello extends java.lang.Object {}
+
+        The root or ultimate super class - java.lang.Object. 
+        --------------------------------------------------
+         All classes in Java platforms (except primitives), custom
+	 or user-defined classes are automatically sub-classes of 
+	 java.lang.Object. So it is the ultimate super class of 
+	 all TYPES.
+
+         Inheritance is transitive so in following example,
+         class A {}
+         class B extends A {}
+  
+		 Object is direct superclass of "A"
+		 "A" is direct superclass of "B" and
+		 "Object" is indirect superclass of "B" too.
+
+		It means "B" is created using "A" and "Object" class.
+    2. Each & every type must have fully qualified name (i.e package
+	or namespace).
+       
+       Java Core API packages
+       ---------------------
+       Java platform has reserve the "java" and "javax" package for
+	platform's API. We cannot use or update it.
+
+        java.lang - a very special package
+        -----------------------------------
+            The Java compiler automatically "import" (define fully qualified names of types) all TYPES of "java.lang" package in any platform. So no need to use package name while using them.
+
+	e.g.
+		String, StringBuilder,StringBuffer, System, Integer,
+		Float etc classes you can use without import or
+		qualifying them.
+
+   3. Naming conventions for package, TYPES, fields, methods and
+	constants.
+
+	1. package name must be lower case.
+        2. Type name must be "PascalCase" - Capitalize the first
+	   letter of each word. Do not use "underscore" -.
+           e.g FirstApp, Student, String, Test etc
+        3. Fields, methods and local variables names must be in
+	   "camelCase" - First word must be in lowercase and then
+		capitalize the first letter of each word.
+	e.g   int testValue;
+              void setEmployeeRecord()
+              getRoll, setRoll, removeItem etc
+        4.  Capitalize the constants. 
+		e.g MAX, PI
+		e.g  final double PI = 3.14;
+
+   Wrapper Types -- java.lang package classes
+   -------------
+   In java.lang package we have some classes which duplicate the
+	functionalities of "primitives". Because "primitive types" are
+   not designed as "OOP" rules then they cannot participate with some
+   or all TYPES of OOP designed TYPES.
+
+	Primitive		Wrapper class
+	byte			java.lang.Byte
+	short			java.lang.Short
+	int			java.lang.Integer
+	float			java.lang.Float
+	double			java.lang.Double
+	char			java.lang.Character
+	boolean			java.lang.Boolean
+
+    Autoboxing and autounboxing feature of Java automatically convert
+    primitive value to object/wrapper value and vice versa.
+
+Example:
+
+package in.nidhi;
+public class Test {
+  public static void main(String []args) {
+      int no = 10; // primitive 
+      Integer no1 = no; //Primitive to object is called boxing
+			//and this process is automatic - autoboxing
+      int k = no1;  //Object to primitive is called unboxing
+      System.out.println(no);
+      System.out.println(no1 + " "  + k);
+  }
+}
+>javac Test.java -d .
+>java in.nidhi.Test
+
+
+10
+int no  = 10;     
+Integer no1 = 10;  // Integer no1 = new Integer(10);
+int k = no1; 
+
+Example: Determine the size and data range 
+
+package in.nidhi;
+public class Test {
+  public static void main(String []args) {
+      System.out.println(Integer.SIZE);
+      System.out.println(Long.MAX_VALUE + " " + Long.MIN_VALUE);
+  }
+}
+
+Literals  Or Constants
+=========
+
+Literals are used to assign value or initialize variables.
+
+1. Local variables are not initialized automatically. That means we must have to assign or initialize a variable before use it.
+
+Following code wont compiled:
+
+package in.nidhi;
+public class Test {
+  public static void main(String []args) {
+      int n;
+      System.out.println(n); <-- Error, n might not initialized
+  }
+}
+
+2. Fields (data-members) are automatically initialized. 
+   If they are byte,short, int,long, float or double then initialized    with 0 value.
+
+   If they are char type then init via '\0' or '\u0000' ( Character    null)
+
+   If they are boolean then default value will be false.
+
+   And if they are Core API type (Object and its subclasses),    interfaces, enums and annotation then the default value will be    null.
+
+Example:
+package in.nidhi;
+
+class Foo {
+ //fields - these are not variables
+  public int no;    
+  public String name;
+  public boolean status;
+}
+public class Test {
+  public static void main(String []args) {
+      int n = 0;  //local variable
+      System.out.println(n);
+
+      Foo foo=new Foo();
+      System.out.println(foo.no  + "  " + foo.name 
+                         + " " + foo.status);
+  }
+}
+
+Following types of literals used to initialized the variables & fields
+----------
+1. Integer literal - value without decimal places is consider as "int" 
+   and it is express:
+
+       10    - decimal
+       0xA   - hexadecimal
+       012   - octal
+       0B1010 - Binary
+       
+package in.nidhi;
+
+public class Test {
+  public static void main(String []args) {
+       int a = 10,
+           b = 0xA,
+           c = 012, 
+           d = 0B1010;
+       System.out.println(a + " " + b + " " + c + " " + d);
+  }
+}
+
+2. Long literal - Use "L" or "l" suffix to integer value
+	e.g 10L, 0xAL, 012L, 0B100L
+code in main method:
+   long no1 = 1000000 * 1000000;  //int * int will produce int result
+   long no2 = 1000000L * 1000000L; //long * long will produce long
+   System.out.println(no1 + " " + no2);
+
+3. Double literal - Value with decimal place is of "double" type by 		    default.
+
+4. Float literal  - Use "F" or "f" suffix
+
+  e.g   float amount = 10.10; will throws an exception because 10.10
+				is consider as "double" type.
+
+     float amount = 10.10F; // is correct
+5. Boolean literal - true or false (not 0 or 1)
+6. Character literal - ANSII and Unicode char
+	e.g
+	 char ch = 'A'; // ANSI 
+         char ph = '\u02ac'; // Unicode \u + four-hex-digit
+     [charmap.exe tool + Unicode font - Arial Unicode]
+7. null literal 
+   We cannot set null to the primitive types. We can set null to    class, interface, enum and annotation reference variable.
+
+   e.g
+        String name = null;
+
+       "null" means object is missing or object not exists or no         memory to hold data.
+
+Object and Reference variable
+=================================================================
+An "Object" means allocated bytes or mostly a "heap".
+
+Reference variable is a very special variable (Pointer variable in C/C++), which store either memory address/reference of "object" or null.
+
+Example:
+
+package in.nidhi;
+
+class Foo {
+   public int no;
+   public double amount;
+}
+public class Test {
+  public static void main(String []args) {
+     Foo foo1,foo2,foo3; // three reference variables
+     Foo foo4 = new Foo(); // "foo4" is a reference variable which
+			   // contain memory referene of "Object" of
+			   // class Foo.
+
+    //similarly
+    foo1 = new Foo(); // The "new" keyword allocate memory for "no"
+			// and "amount" ( 4 bytes + 8 bytes = 12 			// bytes) and the address/reference of these
+			// 12 bytes is returned to "foo1" variable.
+    foo2 = null;
+    foo3 = foo1;
+    System.out.println(foo1);
+    System.out.println(foo2);
+    System.out.println(foo3);
+    System.out.println(foo4);
+  }
+}
+Size of "reference variable" is 4 bytes of any class/interface/enum/annotation.
+
+Example: Justify the output
+
+class Foo {
+   public int no;
+}
+
+code in main:
+
+   Foo a = new Foo();
+   Foo b = a;
+   a.no = 10;
+   b.no = 20;
+   System.out.println(a.no + " " + b.no); //20 20
+   b=new Foo();
+   b.no = 90;
+   System.out.println(a.no + " " + b.no);
+
+Design a class - guideline
+------------------------------------------------------------------
+In order to design a class, we must obey the naming conventions and constraints:
+
+1. package is required. Do not create classes in "default" package.
+2. Class should be public.
+3. Fields must be private to prevent data truncation or data reading
+   directly from memory.
+4. Create setter & getter public methods to write or read object    (memory) data.
+5. Add one more more constructor to initialize the fields
+
+ *** Following guideline steps will be implemented in future scope **
+6. Override equals,hashCode and toString methods of java.lang.Object
+7. Add some business methods or properties.
+   
+Example: Student class has two fields - roll & name. Write constructors, getter and setters.
+
+package in.nidhi;
+
+class Student {
+   private  int roll;
+   private String name;
+   
+   //Constructors
+    public Student(){
+         roll = 1;
+         name = "";
+    }
+    public Student(int mRoll, String mName) {
+      // roll = mRoll;  setRoll( mRoll );
+      // name = mName;  setName( mName );
+     }
+
+   //setter & getter methods - Encapsulation
+   public void setRoll( int v ) {
+        if(v>=1 && v<=100) {
+           roll = v;
+        }
+    }
+   public void setName( String v ) {
+        if(v == null) {
+          return;
+         }
+
+        if(v.length()>=50) {
+             return;
+        }
+        name = v;
+   }   
+   public int getRoll() {
+      return roll;
+    }
+   public String getName() {
+      return name;
+   }
+
+} 
+public class Test {
+  public static void main(String []args) {
+      Student s = new Student();
+      s.setRoll(10);
+      s.setName( "Afdasfdsaf sdfsd asd" );
+      System.out.println(s.getRoll() + "  " + s.getName());
+      Student t = new Student(10,"Reena");
+      System.out.println(t.getRoll() + "  " + t.getName());      
+  }
+}
+
+Example:
+public class Employee {
+   private int id;
+   private String name;
+   private double salary;
+   .....
+}
+public class Point {
+   private int x,y;
+}
+public class Student {
+    private int roll,
+                english,
+                maths,
+                science;
+    private String name;
+    ...
+}

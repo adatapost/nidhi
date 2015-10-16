@@ -1,0 +1,181 @@
+ Collection Framework - java.util classes
+ -------------------------------------------------------------------------------
+
+ Collection is a "group" of objects and it can be a objects of "Student" or "Product"  and so on. In Java API, the basic and fundamental behavior of any kind of collection
+ is its unique feature to traverse or iterate the collection.
+
+ For example, an array is a collection and hence it has interate or traverse method.
+
+   The for each loop is especially designed for traversing collections and syntax of
+   for each loop is:
+
+         for(Type varName : Iterable_Object) {  
+           //statement
+         }
+
+   The "Iterable_Object" is of such class which has implemented "java.lang.Iterable<T>    interface".
+
+ Interfaces & classes of collection framework
+ ---------------------------------------------
+ In java.util packages we have following interfaces which define the behavior of   collections (collections sometimes called "Data structure"). 
+
+ public interface Iterable<T> {}
+ public interface Collection<T> extends Iterable<T>
+ 
+ Further Collection<T> interface is extends by List<T> and Set<T> interfaces,
+
+ public interface List<T> extends Collection<T> {}
+ public interface Set<T> extends Collection<T> {}
+
+ The List<T> classes
+ -------------------
+ List<T> classes have collection of ordered elements. They support methods to add,  search, delete, and update the collection items.
+
+ Following are classes exists in java.util package which implments List<T> interface.
+
+   1. java.util.ArrayList<T> -- It is dynamic array whose size can be grows or shrinks
+				when we add or remove elements.
+   2. java.util.Vector<T>    -- It is also a dynamic array and offers same amount of
+				methods of "ArrayList<T>" class.
+
+				The only difference is that java.util.Vector carries
+				old Java API version 1.0 and 1.1.
+
+				In entire collection APIs, we have two such classes
+				which support old and new features and these are - 				Vector<T> and Hashtable<T>.
+
+  3. java.util.Stack<T>, java.util.LinkedList<T> are some other classes support
+     List<T> behavior.
+
+ The Set<T> classes
+ -------------------
+ The Set<T> allows only unique elements into a collection. The Set<T> uses hashCode() and equals() methods to compare objects and decide whether these objects are unique or not. So it is necessary to override hashCode() & equals() when you use the class with Set<T>.
+
+ In Set<T>, we don't have an order of an object. Each object will be added based upon  the hashCode() value.
+
+ 1. java.util.HashSet<T> -- Collect the objects based upon the hashCode() of T.
+ 2. java.util.TreeSet<T> -- Represent objects as binary tree (left or right node) 				based upon the hashCode() of an object.
+
+
+ The Map<K,V> interface and its classes
+ -----------------------------------------------------------------------------------
+ The java.util.Map<K,V> is not a sub-interface of Collection but it represent two objects as a pair by creating an instance of Map.Entry<K,V>.
+
+ In this collection, K - a key type must have hashCode() & equals() method because 
+ it allows only unique keys. It means K represents the Set<K> of keys.
+
+ The V - value type can be a List<T> or Set<T> or Map<K,V> or anyother type you want  to use. 
+
+ In Map, key must be unique whereas value may or may not.
+
+ 1. java.util.HashMap<K,V> -- Collection of key-value pairs.
+ 2. java.util.Hashtable<K,V> -- Collection of key-value pairs but it should not used
+				in new development. It contains old Java features just
+				like a Vector class.
+
+				So, Vector and Hashtable are called "lagecy classes".
+
+3. Properties               -- It is specialized collection of Object as key and 				Object as value.
+
+
+ Example of ArrayList<T>  (code in main method)
+ ========================
+
+       ArrayList<String> cities = new ArrayList<>();
+       // List<String> cities=new ArrayList<>();
+        
+        //add cities
+        cities.add("Patan");
+        cities.add("Mehsana");
+        cities.add("Surat");
+        
+        //get(index) - Read
+        System.out.println(cities.get(0) + " " + cities.get(1));
+        
+        //set(index,value) - update item
+        cities.set(1, "Meh");
+        
+        //add(index,value) -- Insert item
+        cities.add(1, "Vis");
+        
+        //traverse
+        for(String city: cities) {
+            System.out.println(city);
+        }
+        
+        //remove(index | object)
+        cities.remove("Patan"); //cities.remove("patan");
+        cities.remove(1);  
+        System.out.println("After deletion");
+        for(String city: cities) {
+            System.out.println(city);
+        }
+        
+        //size() - count of elements
+        System.out.println(cities.size());
+ 
+
+Example: search/find objects 
+
+        ArrayList<String> cities = new ArrayList<>();
+        cities.add("Patan");
+        cities.add("Mehsana");
+        cities.add("Surat");
+        
+        //boolean contains(obj)
+        
+        if(cities.contains("Mehsana")) {
+            System.out.println("Found");
+        } else {
+            System.out.println("Not Found");
+        }
+        
+        //int indexOf(obj) - returns -1 if not exists
+        int index = cities.indexOf("Mehsana");
+        if(index==-1) {
+            System.out.println("Not found");
+        } else {
+            System.out.println("Found at " + index + " : " + cities.get(index));
+        }
+
+Example: List of "Product" objects.
+
+  List<Product> products = new ArrayList<>();
+  //You can assign Product type to the ArrayList<> too.
+  //   List<Product> products = new ArrayList<Product>(); However it has no   //                                                          significance.
+
+  products.add( new Product() );
+  products.add( new Product(1,"Pencil") );
+  
+  products.get(0).setId(10);
+  products.get(0).setName("Pen");
+
+  for(Product product: products) {
+    System.out.println(product.getId() + " " + product.getName());
+  }
+
+Example: sort(Comparator<T>) - To sort the collection based upon the Comparator<T> object.
+
+....
+....
+//creates inner class
+products.sort( new Comparator<Product>() {
+  public int compareTo(Product o1, Product o2) {
+     /* returns 0, if both are equals
+        returns >0, if first object greater than second one
+        returns <0, if first object less than second one */
+     return o1.getId() - o2.getId();
+  }
+});
+System.out.println("Sort by id");
+for(Product p: products) {
+   System.out.println(p);
+}
+
+products.sort( new Comparator<Product>(){
+  public int compareTo(Product p1,Product p2) { 
+      return p1.getName().compareTo(p2.getName());
+  }
+});
+
+

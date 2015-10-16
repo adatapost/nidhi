@@ -1,0 +1,115 @@
+ Strings in Java
+ ----------------------------------------------------------------
+ We have two types to represent strings:
+
+   1. java.lang.String ( Immutable Object ) - It is called immutable
+	because we cannot change the content of "immutable"
+	object once it is created.
+   2. java.lang.StringBuffer and
+      java.lang.StringBuilder (Mutable object) - Mutable means we can
+	change/update the "mutable" object content.
+
+Immutable string:
+
+    String name = "Hello"; // creates a new object which contains 
+			   // "Hello" and returns its memory reference
+
+    name = name + "World"; // creates a new object which contains
+		   // "HelloWorld" and returns memory reference
+
+    So each time you try to change / update / concat the string, the     JVM will creates new object to hold the changes.
+
+
+Mutable string:
+
+     You can either use StringBuilder or StringBuffer interchangebly.
+
+      StringBuilder sb=new StringBuilder(); //single object 
+      sb.append("Hello"); // new content added into existing object
+      sb.append("Hi");
+      sb.insert(0,"Test"); // insert new string at 0 index
+      
+Best Practice:
+    Use "String" type when you want to represent "string" literal but
+	not to manipulate them.
+
+    Always use "StringBuilder" when you want to represent string which
+	is either produce programatically or update/delete 	programatically.
+
+    Note: StringBuffer is thread-safe - it means more than one thread
+	  operation on a "string" can be performed on the basis of 
+          "first come first serve" (i.e it uses thread locking).
+
+          StringBuilder is not a thread-safe. You can use this object
+	  with non-concurrency.
+
+Example: Construct String objects 
+
+ String name = "Mr.A"; // new String("Mr.A");
+ String address = new String("12-ABC");
+ String test = new String(new byte[]{66,55,66,77,});
+
+ //length()
+ System.out.println(name.length());
+ System.out.println("Hello World".length());
+
+ //toUpperCase(), toLowerCase()
+ System.out.println(name.toLowerCase());
+ System.out.println(name.toUpperCase());
+
+ //boolean contains(search)
+ name = "The red sun";
+ if( name.contains( "red" ) ) {
+    System.out.println("Found");
+ } else { 
+    System.out.println("Not found.");
+ }
+
+ //indexOf(search) - return index of search sub-string
+ name = "The red sun";
+ int n = name.indexOf("red"); // 4
+ System.out.println(n);
+ n = name.indexOf("Hello"); // -1 - not found
+ System.out.println(n);
+
+ //convert all primitive & wrapper value to string - valueOf()
+  int no = 10;
+  String str = String.valueOf(no);
+  System.out.println( str );
+  
+ //charAt(index)
+ name = "Hello";
+ for(int i=0;i<name.length();i++) {
+   System.out.println(name.charAt(i));
+ }
+
+Example: Using System.currentTimeMillis() - which return current time in millisecond, we want to compare how much time is to be taken by "STring" and StringBuilder to concat a string 100000 times.
+
+public class Test {
+   public static void testString(String []args){
+      String str = "";
+      long start = System.currentTimeMillis();
+      for(int i=1;i<=100000;i++) {
+          str = str + i;
+       }
+      long end = System.currentTimeMillis();
+      System.out.println("String  : " + (end-start) + " ms.");
+   }
+  public static void testStringBuilder()(String []args){
+      StringBuilder str = new StringBuilder();
+      long start = System.currentTimeMillis();
+      for(int i=1;i<=100000;i++) {
+          str.append(i);
+       }
+      long end = System.currentTimeMillis();
+      System.out.println("StringBuilder: "+(end-start) + " ms.");
+   }
+  public static void main(String []args) {
+     testString();
+     testStringBuilder();
+  }
+}
+
+HomeWork : Test the methods of String & StringBuilder class
+
+      

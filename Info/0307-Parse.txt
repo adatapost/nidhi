@@ -1,0 +1,35 @@
+ Parse the data - primitive types, strings, datetime, wrappers
+ --------------------------------------------------------------
+
+  "Parse" means - "Using programming technique, change the nature
+		   of data by separating & assembling characters".
+
+  1. store int value into "string" var - String.valueOf().
+
+      int no = 10;
+      String str = String.valueOf(no);
+
+  2. Store Wrapper value into "string" variable - obj.toString()
+
+      Integer no = 10;
+      String str = no.toString();
+      Double amt = 10.10;
+      str = amt.toString();
+
+  3. Store "string" data into primitive / wrapper 
+
+          Wrapper.parseWrapper(string) method
+
+         String str = "109";
+         int no = Integer.parseInt( str );
+         double val = Double.parseDouble( str );
+
+  4. Parse wrapper value into primitive value
+
+            obj.xxxxxValue() method
+
+        Double amt = 1000.20;
+        int n = amt.intValue();
+        float f = amt.floatValue();
+        short s= amt.shortValue();
+ 

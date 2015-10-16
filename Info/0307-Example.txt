@@ -1,0 +1,32 @@
+ Example: Define a Date class has three fields - day, month and year           of integer type.
+
+           Write,
+public boolean isValid() { 
+  if(month == 1 || month == 3 || month == 5 || month = 7 
+    || month == 8 .... ) {
+       if(day<1 || day>31) {
+         return false;
+       }
+   }
+   
+
+  return true;
+} method to validate the 
+			day, month and year parts of the date.
+
+//main
+
+Date d = new Date(31,1,2002);
+if(d.isValid()) {
+   //
+} else {
+  //
+}
+
+ Add following methods into Date class: 
+    public void next() {}
+    public void previous() {}
+
+      Next :  31-12-2012 => 1-1-2013
+              28-2-2005 => 1-3-2005
+

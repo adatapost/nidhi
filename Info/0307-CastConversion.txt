@@ -1,0 +1,28 @@
+ Primitive types - type cast
+ -------------------------------------------------------------------
+ Integer literal will be assigned to byte, short implictly if value is  lower then size (range) of target datatype.
+
+ byte, short, int and long are called "Integer family" and any value
+ from byte will be assigned to short, int and long implicitly  similarly short will be assigned to int, and long and int will be to  long.
+
+ In other cases, we need to use () cast operator.
+
+  e.g  
+
+     byte m = 10;   //OK - implicit cast
+     byte n = 210; //Error
+
+  e.g.
+  
+     int n = 10;
+     byte m = (byte) n; // Explicit cast - convert int value
+			// type to byte
+
+  e.g
+     double d = 10.00;
+     float f = (float) d;
+
+  e.g
+     char ch = 'A';
+     System.out.println(ch); // A
+     System.out.println( (int) ch); //65 - ASCII

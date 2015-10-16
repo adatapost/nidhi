@@ -1,0 +1,794 @@
+ JDBC - a Java Database Connectivity protocol
+ ------------------------------------------------
+ The packages java.sql and javax.sql represent the JDBC protocol. They have interfaces
+ and classes to integrate Java application with any known database product.
+
+ We have following interfaces in java.sql package which define behavior of JDBC.
+
+  1. Connection
+  2. Statement 
+  3. PreparedStatement
+  4. CallableStatement
+  5. ResultSet 
+  6. Driver and so on
+
+ Note that above mentioned are "interfaces". As per JDBC protocol, any vendor or  developer who want to make the use of Database with Java platform, must have to
+ implements interfaces defined in the java.sql and javax.sql packages. The implementation of java.sql and javax.sql is generally known as JDBC Driver.
+
+ Different database vendors, open source developers and database product mfg. design  the "JDBC Drivers" API.
+
+ For example,
+
+    To use Oracle 10g, we must have to use ojdbc5.jar 
+           Oracle 11g, we can use ojdbc6.jar
+    To use MySql, we must have to download mysql-j-connector APIs - mysql.jar
+    To use Microsoft SQL Server, download the MSSQL-Java-Connector API from
+							microsft web site.
+
+ Based upon the different implementations of JDBC protocols, we have following kind
+ of JDBC Drivers:
+
+
+  1. Type - 1 -- These kind of drivers uses another protocol to integrate database
+		 services. The jdbc-odbc is an example of Type-1 driver.
+                 Due to number of layers between database and Java program, it is not
+		 suitable for database operations( It never ever used for that 		purpose. It is just for demonstrate purpose)
+  2. Type - 2 -- Driver APIs written in C++ to enhance the speed and performance are
+		 known as "Type2".
+		 Because they are created using C++ hence there are issues with 		 compatibilities on different OS.
+
+  3. Type - 3 -- They are created via pure Java code but they also a "middleware - 		  which might be created using C/C++ to enhance the performance".
+
+  4. Type - 4 -- They are pure Java JDBC drivers and uses ubiquitious protocol TCP/IP.
+
+JDBC Resources and cleanup strategy
+--------------------------------------
+JDBC objects uses huge amount of memory and these resources are not freed until you call "close()" method (All JDBC resources support Closeable or AutoCloseable interface).
+
+You can use one of the two appropach to release JDBC resources gracefully.
+
+Approach - try..catch..finally example
+-------------------------------
+
+Connection cn = null;
+
+try {
+   cn = //here is code to open connection
+   ....
+}catch(Exception ex) {
+   //cause
+}finally {
+  if(cn!=null) {
+     try{
+        cn.close();
+     }catch(Exception ex) {
+       //cause
+     }
+  }//end of if
+}//end finally
+
+Approach - try-with-resource example
+-------------------------------------
+
+try(Connection cn = /*code to open connection*/) {
+   //statement
+}catch(Exception ex) {
+   //cause
+}
+
+Loading or registering the JDBC driver API
+---------------------------------------------------------------
+In order to use database product in your Java application, we must first load appropriate JDBC Driver (load the class of java.lang.Driver interface).
+
+You can use one of the two syntax:
+
+ 1. Create an object of a Driver class
+
+   e.g     new oracle.jdbc.OracleDriver();
+
+    To use above line, first of all we need to copy that JDBC.jar file into our
+    program or project folder.
+
+ 2. Load the Driver via "Class.forName()" method.
+
+     try {
+        Class.forName("oracle.jdbc.OracleDriver");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+   Note that in this syntax we don't have to add/include JDBC.jar into our project
+   or program folder at the time of compilation.
+ 
+   We will always use second syntax - Class.forName("driver-class-name").
+
+Example: 
+
+1. Copy the ojdbc5 or ojdbc6 jar file into a folder where you can specify driver path    easily (most probably inside your current working directory).
+
+   (copy from \oraclexe\....\product\..\jdbc )
+2. Write following code 
+
+class Test {
+   public static void main(String []args) {
+
+    try {
+        Class.forName("oracle.jdbc.OracleDriver");
+        System.out.println("Driver loaded successfully");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+
+   }
+}
+
+3. Compile
+>javac Test.java -d .
+
+4. Run - mention the ojdbc5 or 6 jar file with -cp switch  (-cp stands for CLASSPATH)
+
+>java -cp .;ojdbc5.jar  in.nidhi.Test
+
+          
+-cp .; <-- means search the .class files into current package folder
+-cp .;ojdbc5.jar <-- means after searching in current package folder, go to 			"ojdbc5.jar".
+
+>java -cp .;ojdbc5.jar  in.nidhi.Test
+		 
+
+Working with oracle database
+================================
+Oracle database (any version), installed with "system" username ( which is a database administrator user account) and the password you've set at the time of installation can be operated via SQL prompt (client) or Java's JDBC APIs.
+
+Create your own user account (schema)
+--------------------------------------
+1. Open / run "SQL prompt" (Click on menu item from "Oracle" in start menu)
+
+2. Connect with,
+ 
+   sql>connect system/your_password
+
+3. sql>create user nidhi identified by nidhi; 
+
+         "nidhi" is user name and identified by nidhi<-- is password
+
+4. Set connect and resource (create,modify,drop tables and update/insert/delete data)
+   previleges.
+
+  sql>grant connect, resource, dba to nidhi;
+
+5. Now, operate your user account,
+
+   sql>connect nidhi/nidhi
+
+Save important "SQL" statements into a file (sql file)
+------------------------------------------------------
+Use  sql>ed filename  to create/open a file
+
+ For example,
+  >ed d:\javaprg\nidhi\first 
+
+ will creates/opens first.sql file and add following statements into it.
+
+ drop table dept
+/
+
+create table dept
+(
+  dept_id number(3) primary key,
+  dept_name varchar2(50) not null unique,
+  dept_location varchar2(60) not null
+)
+/
+
+ You can use ; (semi-color) or / to terminate SQL statement. Now, save & close the file and run sql-script file,
+
+  sql>@d:\javaprg\nidhi\first
+
+Example:
+
+drop table emp
+/
+
+drop table dept
+/
+
+create table dept
+(
+  dept_id number(3) primary key,
+  dept_name varchar2(50) not null unique,
+  dept_location varchar2(60) not null
+)
+/
+
+create table emp
+(
+  emp_id number(6) primary key,
+  emp_name varchar2(60) not null,
+  join_date date not null,
+  basic_salary number(15,2),
+  dept_id number(3),
+  foreign key( dept_id ) references dept(dept_id)
+)
+/
+
+insert into dept values (1,'Human Resource','Mehsana');
+insert into dept (dept_name,dept_id,dept_location) values ('Mumbai',2,'Accounting');
+
+insert into emp values(101,'Ms. A','10-OCT-2010',9000,1);
+insert into emp values(102,'Ms. A','10-OCT-2010',9000,10); <--Error - Referential
+							    integrity fails  - dept_id
+								value 10 is not 							     exists in "dept" table.
+
+update dept set dept_name='HR',dept_location='Patan' where dept_id=1;
+update dept set dept_name='AC' where dept_id=2;
+
+delete from dept where dept_id=10;
+delete from dept where dept_name='Production';
+delete from dept; //remove all rows
+
+Inner Joins
+-----------
+1. Display emp_name, dept_name and dept_location
+
+ select 
+     a.emp_name,
+     b.dept_name,
+     b.dept_location
+ from
+     emp a, 
+     dept b
+  where a.dept_id = b.dept_id;
+
+OR
+
+ select emp.emp_name,
+        dept.dept_name,
+        dept.dept_location
+          from emp,dept
+         where emp.dept_id = dept.dept_id;
+
+ You can add aliases to existing columns or expressions.
+ 
+ select emp.id as "Id", 
+        emp_name as "Name",
+        basic_salary as "Salary",
+        basic_salary*.50 as "DA"
+           from emp;
+
+ You can save "SELECT SQL statement" by creating a "view". To create a view, columns
+  you add must be unique (so use aliases appropriately).
+
+  create or replace view emp_info as 
+     select emp_id as "Id", 
+        emp_name as "Name",
+        basic_salary as "Salary",
+        basic_salary*.50 as "DA"
+           from emp;
+
+  sql>select * from emp_info;
+       
+   The main advantage of "view" is that we don't have to write same sql statement    again and again.
+
+JDBC APIs and oracle database
+--------------------------------------------------------------------------------
+In order to work with any database programatically, first, we must load the "Database Driver - JDBC Driver class" via Class.forName("driverClassName").
+
+Then after we will have to use java.sql.DriverManager class'es getConnection() method to establish a session or connection with database.
+
+The syntax of getConnecton() method:
+
+java.sql.Connection  java.sql.DriverManager
+                             .getConnection("url","username","password");
+
+The getConnection() method returns an object of java.sql.Connection interface if
+session establishes, returns null and throws exception otherwise.
+
+ The first parameter in getConnection() method is "url" and it must be written
+ as per following syntax:
+
+     "jdbc:sub-protocol:sub-sub-protocol:server-name"
+
+ For example, the url for oracle database is:
+
+     "jdbc:oracle:thin:@localhost"
+  Or
+     "jdbc:oracle:thin:@192.12.1.182"  <-- IP-address instead of "hostname".
+
+
+Example:
+
+package in.nidhi;
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+
+class Test {
+   public static void main(String []args) {
+    try {
+        Class.forName("oracle.jdbc.OracleDriver");
+        System.out.println("Driver loaded successfully");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+
+     /* Use try-with-resource  or try-catch-finally to dispose objects gracefully. */
+
+     Connection cn = null;
+     try {
+        cn = DriverManager.getConnection                        ("jdbc:oracle:thin:@localhost","nidhi","nidhi");
+         System.out.println("OK..");
+     }catch(Exception ex) {
+        System.out.println(ex);
+     }finally {
+        if(cn!=null) {
+          try { cn.close(); } catch(Exception ex) { /* */ }
+        }
+     }
+   }
+}
+
+Execute SQL statements & stored procedures - java.sql.Statement interface
+---------------------------------------------------------------------------
+To create sql statements and execute them, we need to use java.sql.Statement and its
+two sub-interfaces - java.sql.PreparedStatement and java.sql.CallableStatement.
+
+The java.sql.Statement interface define common behavior to "PreparedStatement" and "CallableStatement" objects.
+
+You can use any one of three object to prepare the sql statement, execute it and fetch the result from database however we should use different objects for different purposes:
+
+ 1. java.sql.Statement should be used to execute DDL - data definition language statements (e.g create, alter, drop -- tables, view, stored proc etc).
+    This object should not be used to execute SQL statement or stored procedure     because we need to extra code (or take great care) to prevent SQL Injection     security issues, XSS issue (Cross Scripting Injection) and Type coresion issues.
+
+Hardcoded sql statement --- Don't use hardcoded sql statement because there might be sql injection attack and also each data you send to the database will be corese to "string".
+
+Example:
+
+ int deptNo = 1;
+ String deptName="Acc";
+
+ String sql = "insert into dept values(" + deptNo + ",'" + deptName + '")";
+
+  The database receive following query,
+       "insert into dept values (1,'Acc')" and of course all data are string type.
+
+Sql Injection  -- To append sql statements or expressions to the existing hardcoded sql statement string.
+ 
+Example:
+ 
+ String username = "raj";  // "raj' or '1'='1" //raj';drop table login;
+ String sq= "select * from login where username='" + username + "'";
+   Result:    select * from login where username='raj';
+   Result:    select * from login where username='raj' or '1'='1';
+
+Escape characters or special chars cannot be represented via hardcoded sql strings
+-------------
+
+ Example: 
+  String search = "Raj's home";
+  String sql = "select * from database where address='" + search + "'";
+  Result : select * from database where address='Raj's home'
+                                                    ^
+                                                    |-- This should be escaped but
+							here it throws error - invalid
+							syntax.
+
+  Statement methods
+  ------------------
+  1. int executeUpdate(sql) - It execute hardcoded SQL statement and returns count of
+			      affected rows.
+  2. ResultSet executeQuery(sql) - It executes hardcoded sql and returns the result.
+			
+    The executeUpdate() should be called for non-query sql statements which includes     all kind of sql statement except the "SELECT".
+
+    executeQuery() method must be used with "SELECT" statement - where we need some     data fetched from the database.
+
+
+Example: Never use "Statement" interface methods. (Code in main)
+
+    //1. Register the driver
+    try {
+        Class.forName("oracle.jdbc.OracleDriver");
+        System.out.println("Driver loaded successfully");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+
+     //2. Establish connection and execute query
+     Connection cn = null;
+     Statement st = null;
+     try {
+        cn = DriverManager.getConnection                     ("jdbc:oracle:thin:@localhost","nidhi","nidhi");
+
+        
+       int dno = 30;
+       String deptName = "Fin";
+       String deptLoc = "Pat'an";
+       String sql = "insert into dept values (" + dno + ",'" 
+                       + deptName + "','" + deptLoc + "')";
+       st = cn.createStatement();
+       int result = st.executeUpdate( sql ); 
+       System.out.println(result);
+     }catch(Exception ex) {
+        System.out.println(ex);
+     }finally {
+        if(cn!=null) {
+          try { cn.close(); } catch(Exception ex) { /* */ }
+        }
+       if(st!=null) {
+          try { st.close(); } catch(Exception ex) { /* */ }
+        }
+     }
+
+ java.sql.PreparedStatement & its methods
+ ----------------------------------------
+ Always uses "PreparedStatement". Prepared means pre-compiled. This object first compiles your sql statement which is crafted using parameters (placeholders) characters - ? (question mark is used as parameter).
+
+ Because of the "compiled" sql statement, we just need to pass data to the database server separately along with that "compiled" or "templated" sql.
+
+ Hardcoded sql statements will be compiled each time you change the data whereas "parameterized sql" statements are once compile.
+
+ Method
+ -------
+ 1. int executeUpdate() - To execute non-queries
+ 2. ResultSet executeQuery() - To execute the query
+ 3. setXXXXX(paramIndex,XXXXX value) - To set parameters at given paramIndex (int).
+
+     e.g setInt(1,10);  // paramIndex 1 stands for 1st parameter
+         setString(2,"HR"); // 2nd param and so on
+Example:
+
+  //1. Register the driver (same as above code)
+  //2. Execute sql statement
+  try(Connection cn = DriverManager
+                       .getConnection(....))
+  {
+      String sql = "insert into dept values (?,?,?)";
+      try( PreparedStatement st = cn.prepareStatement( sql ) ) {
+           st.setInt(1,10);
+           st.setString(2,"Accounting");
+           st.setString(3,"Mehsana");
+           st.executeUpdate();
+
+           //You can add another record using same template
+           st.setInt(1,20);
+           st.setString(2,"HR");
+           st.setString(3,"Patan");
+           st.executeUpdate();
+        }
+    }catch(Exception ex) {
+         System.out.println(ex);
+    }
+           
+Example - 
+package in.nidhi;
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+class Test {
+   public static void main(String []args) {
+
+    try {
+        Class.forName("oracle.jdbc.OracleDriver");
+        System.out.println("Driver loaded successfully");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+
+     
+     try(Connection cn = DriverManager.getConnection                     ("jdbc:oracle:thin:@localhost","nidhi","nidhi")) {
+
+      String sql = "insert into dept values (?,?,?)";
+      try( PreparedStatement st = cn.prepareStatement( sql ) ) {
+           st.setInt(1,10);
+           st.setString(2,"Accounting");
+           st.setString(3,"Mehsana");
+           st.executeUpdate();
+
+           //You can add another record using same template
+           st.setInt(1,20);
+           st.setString(2,"Human Resource");
+           st.setString(3,"Patan");
+           st.executeUpdate();
+        }
+    }catch(Exception ex) {
+         System.out.println(ex);
+    }
+   }
+}
+
+Example: Update dept record.
+....
+....
+      String sql = "update dept set dept_location=?,dept_name=? where dept_id=?";
+      try( PreparedStatement st = cn.prepareStatement( sql ) ) {
+           st.setString(1,"Mumbai");
+           st.setString(2,"HR");
+           st.setInt(3,20);
+           st.executeUpdate();
+        }
+....
+....
+
+Example: Delete dept record
+
+....
+....
+      String sql = "delete from dept where dept_id=?";
+      try( PreparedStatement st = cn.prepareStatement( sql ) ) {
+           st.setInt(1,20);
+           st.executeUpdate();
+        }
+....
+....
+
+Connection methods to create statement objects
+---------------------------
+1. Statement createStatement() - Creates an object of java.sql.Statement
+2. PreparedStatement prepareStatement(sql) - Creates an object of "PreparedStatement"
+3. CallableStatement prepareCall(sql) - Creates an object of "CallableStatement"
+
+The java.sql.ResultSet interface
+--------------------------------
+Method of Statement interfaces named "executeQuery()" returns an object that contains database cursor of specified sql statement.
+
+Using the methods of "ResultSet", we can traverse the database cursor.
+
+ 1. boolean next() -- On first invocation, it opens a cursor. It fetches a row and     returns true, returns false if row is empty (not more data).
+ 2. getXXXXX(index) or getXXXXXX(columnName) - Returns value of specified column name
+     or column index.
+
+Example:
+....
+....
+String sql = "select * from dept";
+try(PreparedStatement st = cn.prepareStatement(sql)) {
+   try(ResultSet rs = st.executeQuery()) {
+      while( rs.next() ) {
+        System.out.println(rs.getInt(1) + " " + rs.getString("dept_name") + " " 
+                           +  rs.getString(3) );
+      } //end of loop
+   }
+}
+.....
+.....
+
+Example:
+package in.nidhi;
+
+import java.sql.DriverManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+class Test {
+   public static void main(String []args) {
+
+    try {
+        Class.forName("oracle.jdbc.OracleDriver");
+        System.out.println("Driver loaded successfully");
+     }catch(Exception ex) {
+        System.out.println(ex);
+        System.exit(0); // stop the program/JVM
+     }
+
+     
+     try(Connection cn = DriverManager.getConnection                     ("jdbc:oracle:thin:@localhost","nidhi","nidhi")) {
+
+      String sql = "select * from dept";
+try(PreparedStatement st = cn.prepareStatement(sql)) {
+   try(ResultSet rs = st.executeQuery()) {
+      while( rs.next() ) {
+        System.out.println(rs.getInt(1) + " " + rs.getString("dept_name") + " " 
+                           +  rs.getString("dept_location") );
+      } //end of loop
+   }
+}
+    }catch(Exception ex) {
+         System.out.println(ex);
+    }
+   }
+} 
+
+JDBC and netbeans application
+==============================================================================
+First of all create a netbean project - File + New + Select "Java + Java Application (console app)" project template.
+
+Every project must be created along with two-level package name. And it should be reverse of your domain/website. For example,  your domain name is nidhi.in then package name must be in.nidhi.
+
+Once project is created, we have to add library references or add library files into our project's class path. 
+
+  For example, to work with JDBC APIs, we must have to include JDBC driver .jar files
+  into project's class path.
+
+  In netbeans, right mouse click on "Libraries" node of your project in "Project"   window. [+] Expand the "Libraries" to see the list of libraries.
+  [Note: You can show (turn on) different windows pane via Windows Menu]
+
+  Click on "Add Jar/Folder" from shorthand menu. Select ojdbc5.jar (or other .jar   files) + Add
+
+  To run the project,
+    1. Run Menu + Run Project
+  Or
+    2. To debug project, open "Debug" menu and press F7 for step-into (shows detailed        code path), or F8 - step-over.
+
+ Output will be displed into "Output" windows (It is just a GUI console).
+
+
+Example: Create a class which encapsulate the JDBC's common methods. For example, it defines methods to execute query, returns result, dispose the resources and so on.
+
+Step-1 Create "Java Application" project
+Step-2 Right click on "ProjectName" in "Project Window" + New + Java Class file + Name your class file and also package. 
+      e.g Db.java and package would be in.nidhi
+
+
+
+  
+Db.java
+-----------------
+package in.nidhi;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class Db implements AutoCloseable {
+    private static final String DRIVER ="oracle.jdbc.OracleDriver";
+    private static final String URL ="jdbc:oracle:thin:@localhost";
+    private static final String USERNAME ="nidhi";
+    private static final String PASSWORD ="nidhi";
+    
+    private Connection cn = null;
+    private PreparedStatement st = null;
+    private ResultSet rs = null;
+    
+    static {
+         try {
+            Class.forName(DRIVER);
+            System.out.println("Driver loaded successfully");
+        } catch (Exception ex) {
+            System.out.println(ex);
+            System.exit(0); // stop the program/JVM
+        }
+    }
+    
+    public Connection getCn() throws Exception {
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+    }
+    public Db(String sql) throws Exception {
+        cn = getCn();
+        st = cn.prepareStatement(sql);
+    }
+
+    @Override
+    public void close() throws Exception {
+        if(cn!=null) {
+            cn.close();
+        }
+        if(st!=null) {
+            st.close();
+        }
+        if(rs!=null) {
+            rs.close();
+        }
+    }
+    
+    public PreparedStatement getSt() throws Exception {
+        return st;
+    }
+    //call this method for all queries except "SELECT"
+    public void execute() throws Exception {
+        st.executeUpdate();
+    }
+    //SELECT query methods
+    //Fetch rows 
+    public ArrayList<Object[]> rows() throws Exception {
+        ArrayList<Object[]> list=new ArrayList<>();
+        rs = st.executeQuery();
+        int columnCount = rs.getMetaData().getColumnCount();
+        while( rs.next() ) {
+            //Prepare a row
+            Object []ar = new Object[columnCount];
+            for(int i=0;i<columnCount;i++) {
+                ar[i] = rs.getObject(i+1);
+            }
+            //Add a row into the list
+            list.add(ar);
+        }
+        return list;
+    }
+    //Fetch single row
+    public Object[] row() throws Exception {
+        rs = st.executeQuery();
+        int columnCount = rs.getMetaData().getColumnCount();
+        Object []ar = null;
+        if( rs.next() ) {
+            ar = new Object[columnCount];
+            for(int i=0;i<columnCount;i++) {
+                ar[i] = rs.getObject(i+1);
+            }
+        }
+        return ar;
+    }
+    //Fetch single value - value from first row & first column
+    public Object value() throws Exception {
+        rs = st.executeQuery();
+        Object v = null;
+        if( rs.next() ) {
+            v = rs.getObject(1);
+        }
+        return v;
+    }
+}
+
+code in main:
+
+public static void main(String[] args) {
+         try(Db x=new Db("select dept_name from dept where dept_id=?")) {
+             x.getSt().setInt(1, 110);
+             System.out.println(x.value());
+         }catch(Exception ex) {
+             System.out.println(ex);
+         }
+         
+         try(Db x=new Db("select count(*) from dept")) {
+             System.out.println(x.value());
+         }catch(Exception ex) {
+             System.out.println(ex);
+         }
+    }
+     public static void main3(String[] args) {
+         try(Db x=new Db("select * from dept where dept_id=?")) {
+             x.getSt().setInt(1, 110);
+             Object []r = x.row();
+             if(r!=null) {
+                 System.out.println(r[0] + " " + r[1] + " " + r[2]);
+             } else{
+                 System.out.println("Not found");
+             }
+         }catch(Exception ex) {
+             System.out.println(ex);
+         }
+    }
+    public static void main2(String[] args) {
+         try(Db x=new Db("select * from dept")) {
+             ArrayList<Object[]> list = x.rows();
+             for(Object []ar: list) {
+                 System.out.println(ar[0] + " " + ar[1] + " " + ar[2]);
+             }
+         }catch(Exception ex) {
+             System.out.println(ex);
+         }
+    }
+    public static void main1(String[] args) {
+        try(Db x = new Db("insert into emp values (?,?,?,?,?)")) {
+            x.getSt().setInt(1, 1);
+            x.getSt().setString(2, "Raj");
+            x.getSt().setDate(3, Date.valueOf("2002-10-30"));
+            x.getSt().setDouble(4, 9000.90);
+            x.getSt().setInt(5, 10);
+            x.execute();
+        }catch(Exception ex) {
+            System.out.println(ex);
+        }
+    }
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+          

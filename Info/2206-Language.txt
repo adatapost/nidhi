@@ -1,0 +1,81 @@
+ 2. Java language is statically typed or tightly type checked     language.
+
+    There are two types of programming languages:
+          1. Statically typed and 
+          2. Dynamic typed
+
+     C,C++, Java, C# are example of statically typed programming 	language.
+ 
+     PHP, JavaScript, Ruby etc are example of dynamic typed languages.
+
+ What is "statically typed"?
+    
+     The "type" of value or variable is checked during compilation as well as runtime is called "statically typed language".
+
+      e.g     int n;   //here type of "n" variable is "int"
+              n=10.10; //10.10 belongs to "double" and type of "n" is
+       		       //int so the compiler refuse to compile this 			// code.
+              n = 10; is the correct becuase "10" is consider as "int"
+			and also type of "n" is int.
+
+       We cannot change type of variable once it is created.
+
+  What about dynamically typed?
+
+       The "type" of variable & value is determined/checked by the        runtime at the time of executing a program.
+
+       In other words, type of variable is evaluted using the value it 	represents.
+
+	e.g PHP language:
+
+               $no = 10; //It is number
+               $no = "Hello"; //It is string 
+               $no = new DateTime; //Date object
+
+ In statically typed language, type is associate with variable & value where as in dynamically typed language, the type is associate with the value but not with variable.
+
+  3. Java is a specification based programming language - Java      Language Specification (JLS). 
+
+  4. Java language comes with JavaSE bundle that is also known as JDK.      Current release JDK 8 (JDK1.8). JDK will be installed on your hard drive at x:\Program Files\Java\jdkx.x.x folder and this folder is known as JAVA_HOME.
+
+     JDK has Java Language + Core APIs + Virtual Machine (Java Runtime 		Environment - JRE).   
+
+     After installing JDK, we must have to set "Path" environment      variable of "X:\Program Files\Java\jdkx.x.x\bin" folder.
+
+     To set Path environment variable:
+
+        1. Control Panel + System +  Advanced System Settings + Environment Variables. + Click on "New" button if "Path" is not exists and set :
+
+            Variable Name:  Path
+            Variable Value: C:\Program Files\Java\jdkx.x.x\bin
+
+         If suppose that the "Path" exists then click on "Edit", add ; semi-colon at the end of list and write your path.
+
+        e.g
+           Variable Name: Path
+           Variable Value: c:\a;c:\pqr;...;"c:\Program Files\java\jdkx.x.x\bin";
+
+Note: Enclosed path with double quotes if file or directoy name has whitespaces. e.g "c:\Program Files\Java\jdkx.x.x\bin"
+
+   After setting "Path" click on OK/Finish button and start the cmd (command prompt) and issue "javac" and "java" command:
+ 
+   >javac  press enter
+   >java   press enter
+
+ 5. Java language has eight (8) built-in datatypes or classes and they 	are known as "primitive" types.
+	Primitive type		Size (in bytes)
+	---------------------------------------
+	byte			1
+	short			2
+	int			4
+	long			8
+	float			4
+	double			8
+	boolean			Not Available (possibly 1 bit)
+	char			2 - To store unicode character
+	
+	Above mentioned types are classes but they are not designed as 
+	per object-orinted paradigm and hence Java language is called 	"Not pure OOP".
+
+        Unicode means a Universal Text Format (UTF) which allow us to represents characters of English and non-English languages including Gujrati, Hinidi, Spanish etc.
+

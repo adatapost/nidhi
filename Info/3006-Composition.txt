@@ -1,0 +1,414 @@
+ Composition
+ ==================================================================
+ Existing Types are used to construct a new Type using "Object  Creation" pattern is known as "Composition".
+
+ Address.java
+ ------------
+package in.nd;
+public class Address {
+  private String city;
+  private int pin;
+ 
+  //constructor
+  public Address() {
+     city = ""; //empty string
+     pin = 0;
+  }
+  public Address(String mCity, int mPin) {
+     city = mCity;
+     pin =  mPin;
+   }
+  public int getPin() { return pin;}
+  public void setPin(int mPin) { pin = mPin;}
+  public String getCity() { return city;}
+  public void setCity(String mCity ) { city = mCity; }
+}//end Address
+
+
+Student.java
+---------------
+package in.nd;
+
+public class Student {
+   private int roll;
+   private String name;
+   private Address localAddress;
+   private Address postalAddress;
+   //constructors, Getters and Setters
+ 
+   public Student() {
+     roll = 0;
+     name = "";
+     localAddress  = new Address();
+     postalAddress = new Address();
+   }
+   public Student(int mRoll, String mName, Address mLocalAddress,
+                           Address mPostalAddress) {
+     roll = mRoll;
+     name = mName;
+     localAddress = mLocalAddress;
+     postalAddress = mPostalAddress;
+   }
+   public int getRoll()  { return roll; }
+   public void setRoll(int mRoll) { roll = mRoll; }
+   public String getName() { return name;}
+   public void setName(String mName) { name = mName;}
+   public void setLocalAddress(Address mLocalAddress) {
+     localAddress = mLocalAddress;
+   }
+   public Address getLocalAddress() { return localAddress; }
+   public void setPostalAddress(Address mPostalAddress) {
+      postalAddress = mPostalAddress;
+   }
+   public Address getPostalAddress() { return postalAddress; }
+}
+
+StudentTest.java   In following we can use objects of Student   
+=================  class and their properties.
+package in.nd;
+
+public class StudentTest {
+public static void main(String []args) {
+    //Test - 4
+    Student s = new Student();
+    s.setRoll(10);
+    s.setName("Mr.A");
+    Address a1 = new Address("Meh",1111);
+    Address a2 = new Address("Pat",3333);
+    s.setLocalAddress( a2 );
+    s.setPostalAddress( a1 );
+    System.out.println(s.getRoll() + " " + s.getName());
+    /* print object references
+    System.out.println(s);
+    System.out.println(s.getLocalAddress());
+    System.out.println(s.getPostalAddress()); 
+    */
+    System.out.println(s.getLocalAddress().getCity() + " " 
+          + s.getLocalAddress().getPin());
+    System.out.println(s.getPostalAddress().getCity() + " " 
+          + s.getPostalAddress().getPin());
+
+
+  }
+   public static void main3(String []args) {
+    //Test - 3
+    Student s = new Student();
+    s.setRoll(10);
+    s.setName("Mr.A");
+    s.setLocalAddress( new Address("Patan",39933) );
+    s.setPostalAddress( new Address("Meh",12933) );
+    System.out.println(s.getRoll() + " " + s.getName());
+    /*System.out.println(s);
+    System.out.println(s.getLocalAddress());
+    System.out.println(s.getPostalAddress()); */
+    System.out.println(s.getLocalAddress().getCity() + " " 
+          + s.getLocalAddress().getPin());
+    System.out.println(s.getPostalAddress().getCity() + " " 
+          + s.getPostalAddress().getPin());
+
+
+  }
+  public static void main2(String []args) {
+    //Test - 2
+    Student s = new Student( 10,"Mr.A", 
+        new Address("Patan",39222), new Address("Mehsana",38282) );
+
+    //print data - as per previous example
+    System.out.println(s.getRoll() + " " + s.getName());
+    System.out.println(s.getLocalAddress().getCity() + " " 
+          + s.getLocalAddress().getPin());
+    System.out.println(s.getPostalAddress().getCity() + " " 
+          + s.getPostalAddress().getPin());
+
+
+  }
+   public static void main1(String []args) {
+    //Test - 1
+
+    Student s = new Student();
+    s.setRoll(10);
+    s.setName("Mr.A");
+    s.getLocalAddress().setCity("Patan");
+    s.getLocalAddress().setPin(383001);
+    s.getPostalAddress().setCity("Meh");
+    s.getPostalAddress().setPin(384001);
+
+    //print data - as per prev example
+    System.out.println(s.getRoll() + " " + s.getName());
+    System.out.println(s.getLocalAddress().getCity() + " " 
+          + s.getLocalAddress().getPin());
+    System.out.println(s.getPostalAddress().getCity() + " " 
+          + s.getPostalAddress().getPin());
+
+  }
+}
+
+this keyword/variable
+==================================================================
+"this" is a reserved word and it is only used with "constructors" and "instance methods". We cannot use "this" keyword in "static" methods.
+
+There are number of usage of "this" in Java:
+
+ 1. To qualify a name as a member of class -field or method
+
+  for Example, in Student's constructor:
+   public Student(int roll, String name, Address localAddress, 
+				Address postalAddress ) {
+      //Note here that we used same parameter name as field name
+      roll = roll; // which roll (parameter or field) to assign
+                   // which roll (parameter or field) ?
+                   // Ans: In above code roll = roll; both names 
+                   //      represent the parameter name
+      this.roll = roll;
+      this.name = name;
+      this.localAddress = localAddress;
+      this.postalAddress = postalAddress;
+   }
+
+Example:
+
+ package in.nd;
+ public class Point {
+   private int x,y;
+   public int getX() { return x;}
+   public int getY() { return y;}
+   public void setX(int x) { this.x=x;}
+   public void setY(int y) { this.y=y;}
+   public Point() { }
+   public Point(int x,int y) { this.x=x; this.y=y;}
+ }
+
+package in.nd;
+public class Rect {
+   private Point location;
+   private Point size;
+   //constructors,getters, setters
+   public Rect() {
+      //always initialize location & size
+      location = new Point();
+      size = new Point();
+   }
+   ....
+}
+
+package in.nd;
+public class PointTest { // Test all methods in main method
+  .....
+}
+
+Example: Define a Student type with roll, name and marks of three subjects - english, maths and science.
+
+Write constructors, getters, setters and some extra methods describe as follows:
+
+  public int getTotal() { return sum of three subjects... }
+  public double getPercent()  { return total / 3 subjects }
+  public String getGrade() { 
+    if percent >=70 then return "A"
+    if percent >=60 return "B"
+    return "C" other wise
+  }
+
+Example: add extra methods to Point type:
+
+public class Point { 
+  ......
+  ......
+  //Extra method
+   public void setPoint(int x,int y) { 
+     this.x = x;
+     this.y = y;
+   }
+  public void setPoint(Point point) {
+     this.x = point.x;
+     this.y = point.y;
+  }
+  
+  public boolean isGreaterThan( Point point) {
+      return this.x > point.x && this.y > point.y;
+  }
+  public void addPoint(int x,int y) {
+    this.x = this.x + x;
+    this.y = this.y + y;
+  }
+  public void addPoint(Point point) {
+    this.x = this.x + point.x;
+    this.y = this.y + point.y;
+  }
+}//End Point 
+
+Write following code in main method:
+
+    Point p1 = new Point();  // new Point(10,20)
+    p1.setPoint(10,20); // p1.setX(10); p1.setY(20);
+    Point p2 = new Point();
+    p2.setPoint( p1 ); //copy an object 
+    System.out.println(p1.getX() + " " + p1.getY());    
+    System.out.println(p2.getX() + " " + p2.getY());
+
+    p1.setX(20);
+    p1.setY(40);
+
+     if( p1.isGreaterThan(p2) ) {
+       System.out.println("p1 is greater than p2");
+     } else {
+        System.out.println("p1 is smaller than p2");
+     }
+    p1.addPoint(p2);
+    System.out.println(p1.getX() + " " + p1.getY());
+
+Example: Create a linked list of Point type
+ package in.nd;
+ public class Point {
+   private int x,y;
+   private Point link; //Store memory ref for next node in a queue
+
+   public int getX() { return x;}
+   public int getY() { return y;}
+   public void setX(int x) { this.x=x;}
+   public void setY(int y) { this.y=y;}
+   public Point() { }
+   public Point(int x,int y) { this.x=x; this.y=y;}
+   public Point getLink() { return link;}
+   public void setLink( Point link) { this.link = link; }
+
+   //Extra method
+   public void setPoint(int x,int y) { 
+     this.x = x;
+     this.y = y;
+   }
+  public void setPoint(Point point) {
+     this.x = point.x;
+     this.y = point.y;
+  }
+  
+  public boolean isGreaterThan( Point point) {
+      return this.x > point.x && this.y > point.y;
+  }
+  public void addPoint(int x,int y) {
+    this.x = this.x + x;
+    this.y = this.y + y;
+  }
+  public void addPoint(Point point) {
+    this.x = this.x + point.x;
+    this.y = this.y + point.y;
+  }
+ }
+
+Example: Linked List
+
+
+ package in.nd;
+ public class Point {
+   private int x,y;
+   private Point link;
+
+   public int getX() { return x;}
+   public int getY() { return y;}
+   public void setX(int x) { this.x=x;}
+   public void setY(int y) { this.y=y;}
+   public Point() { }
+   public Point(int x,int y) { this.x=x; this.y=y;}
+   public Point getLink() { return link;}
+   public void setLink( Point link) { this.link = link; }
+
+   //Extra method
+   public void setPoint(int x,int y) { 
+     this.x = x;
+     this.y = y;
+   }
+  public void setPoint(Point point) {
+     this.x = point.x;
+     this.y = point.y;
+  }
+  
+  public boolean isGreaterThan( Point point) {
+      return this.x > point.x && this.y > point.y;
+  }
+  public void addPoint(int x,int y) {
+    this.x = this.x + x;
+    this.y = this.y + y;
+  }
+  public void addPoint(Point point) {
+    this.x = this.x + point.x;
+    this.y = this.y + point.y;
+  }
+ }
+
+package in.nd;
+
+public class PointLinked {
+   private Point first;
+   private Point last;
+
+   public PointLinked(int x,int y) {
+     first = last = new Point(x,y);
+   }
+   public void add( Point point ){
+       last.setLink( point );
+       last = point;
+   }
+   public Point getFirst() { return first; }
+}
+
+
+/*
+first    last     point
+1000     1000     2000
+         2000
+
+*/
+
+package in.nd;
+public class PointLinkedTest {
+ public static void main(String []args) {
+    PointLinked list=new PointLinked(10,20); //First node
+    list.add( new Point(20,30) );
+    list.add( new Point(120,230) );
+    list.add( new Point(30,4) );
+    list.add( new Point(4,9) );
+
+    Point temp = list.getFirst();
+    while( temp!=null ) {
+       System.out.println(temp.getX() + " " + temp.getY());
+       temp = temp.getLink();
+    }
+ }
+}
+/*
+first    last     point
+1000     1000     2000
+         2000
+
+*/
+
+Example: To represent geneology data
+
+public class Person {
+   private String name;
+   private Person father;
+   private Person mother;
+}  
+public class Marriage {
+
+   private Person husband;
+   private Person wife;
+}
+Person am=new Person("A",null,null);
+Person af=new Person("B",null,null);
+Marriage m0 = new Marriage(am,af);
+
+Person s1 = new Person("C",am,af);
+Person s2 = new Person("D",am,af);
+Person s3 = new Person("E",am,af);
+
+Person s11 = new Person("C1",null,null);
+Marriage m1 = new Marriage(s1,s11);
+Person e1 = new Person("H", s1,s11);
+
+ e1.getName() //h
+ e1.getFather().getName() //C
+ e1.getMother().getName() // c1
+ e1.getFather().getFather().getName() //A
+
+
+

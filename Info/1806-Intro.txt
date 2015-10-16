@@ -1,0 +1,69 @@
+ What is Java?
+ --------------------------------------------------------------
+
+ The Java is a platform/framework. The Java Platform further 
+ divided into three platforms:
+    1. Java SE - Standard Edition
+    2. Java EE - Enterprize Edition (It was called J2EE in early days)
+    3. Java ME - Micro Edition
+
+ Each Java platform has two components - APIs (Application Programming Interface) or Library and Runtime environment (Java Runtime Environment - JRE).
+
+ Only the Java SE has a language called "Java Language" and Java SE is  the foundation platform for Java EE/ME/Android.
+
+ [Note: JRE is also called - Java Virtual MAchine - JVM]
+
+ Platform / Framework  (What do you meant by the term "Platform"?)
+ ------------------------
+
+ A platform is a computing environment through which we can develop (code), deploy (install) and execute the applications (programs) as per specifications/guidelines.
+
+ Bascially each & every frameworks in the world are designed using Inversion of Control (IoC) theory which tells us "Don't call us, we will call you".
+
+At bottom (or low-level), the OS is the first platform and then we have number of sub-platforms which are installed on the OS.
+
+Java SE
+========
+Java SE (also called JDK) is composed of three components :
+  1. Java compiler (Language)
+  2. Java Core APIs
+  3. JVM (or JRE)
+
+Java Language
+--------------
+1. It supports object-oriented paradigm.
+
+     What about OOP?
+          It is a program style. The object-oriented is a technique 
+          to create a code which offers re-usability, and 	  extendability.
+
+    What about an "object"?
+
+          A partitioned area of the memory. Or 
+          Collection/set of allocated/reserved bytes.
+
+          e.g  int a;  The OS will allocates 4 bytes (32bit) and
+			this four bytes group is called an object.
+
+		Objects can be structured or unstructured. Objects whose structure is defined elsewhere is known as "structured". 
+
+		Unstructured objects have no lay out - Their size can 
+		be always in variable length of bytes. When we use 		malloc() function in C language,
+                   int *p;
+                   p = malloc( 20  ); //allocates 20 bytes
+                      
+                   malloc( 20 ) can be used to store 5 integers or
+		   5 floating points or 20 characters(bytes) or
+		   10 short int and so on.
+
+   What about "Type" or "Class"?
+  
+            Type or Class describes the data-structure. It is also
+	    known as "datatype".
+
+	    In other words, it is a blue-print (structure) of an 	    object. The runtime environment (OS or other platform)
+	    allocates memory as per specified "class/type".
+
+       
+
+

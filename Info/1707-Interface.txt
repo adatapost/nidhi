@@ -1,0 +1,300 @@
+ The "Interface" type
+ =============================================================
+ 
+ Before we dwleve into the "Interface", we must have a basic
+ understanding of "function or method declaration".
+
+ In C/C++ language, we must have to declare the "function" before its definition.
+
+ For example,
+
+ #include <stdio.h> <-- Header files contains declaration of
+			functions
+
+ void print(int n);  <-- And here is our user defined
+			 function's declaration
+
+ void print(int n)   <-- Definition
+ {
+
+ }
+
+ So a question is "Why we need to declare a function?"
+
+ Answer is:
+
+    1. To define code separation - Separate definition from its
+       declaration. Public users are always interested in
+	declaration (As we're using Java Documentation for         example).
+    2. The most important usage of declaration is to have 
+       "Function Pointer" ability. Each declaration acts as
+        "Function Pointer" datatype. It means we can store
+        function/method address into memory variable.
+    3. With the help of function pointer we can pass or return
+       entire function/method to/from other programs. The very
+       basic usage of such technique is called "Event handling"
+       or "Callbacks".
+
+ In Java, we can achieve above mentioned features using the  "Interface" datatype.
+
+ Note: Some people say that C++ language support multiple inheritance whereas Java is not.
+
+        So in real world, there isn't any kind of "Multiple         Inheritance" exists.
+
+        An entity can't have two types of "forms". e.g
+          An animal can't be a Dog and Cat (Cannot have both             forms together).
+         
+         The creator of C++ (Mr. Strautoup) explain that the "class" keyword in C++ is used to create "classes" and "interfaces" - There is no separate keyword in C++ to create interface. And this is the reason that some people get confused.
+ [For more info read the book - Programming Practice C++ by strautoup].
+
+Example: C program to learn about "Function pointer".
+
+#include <stdio.h>
+
+void print(int n);
+void printSeries(int n);
+
+void print(int n) {
+  printf("\nValue : %d",n);
+}
+
+void printSeries(int n) {
+   int i;
+   for(i=0;i<=n;i++) {
+      printf("\n%d",i);
+   }
+}
+
+int main() {
+  int no;
+
+   /* Function Pointer - Declared as per return & args */
+  void (*ptr)(int);
+  int (*p)(const char*,...);
+ 
+  ptr = print;  /* address of print function */
+  ptr(10);
+  ptr = printSeries;  /* address of printSeries */
+  ptr(10);
+  p = printf;
+  p("Enter the no : ");
+  p=scanf;
+  p("%d",&no);
+  p=printf;
+  p("\nValue is : %d",no);
+
+  return 0;
+}
+
+Inteface syntax
+----------------
+access-modifier interface YourInterfaceName
+                     [ extends Interface1, Interface2,... ] {
+   //method declarations and constants
+}
+
+The "Interface" tells "what to do" to the class and class describes "How to do?".
+
+Example:
+
+package in.nd;
+
+interface MyInterface {
+   void method1();
+}
+class A implements MyInterface {
+  public void method1() {
+     System.out.println("method1 from A");
+  }
+}
+class B implements MyInterface {
+  public void method1() {
+     System.out.println("method1 from B");
+  }
+}
+class C implements MyInterface {
+  public void method1() {
+     System.out.println("method1 from C");
+  }
+}
+class Test {
+  public static void main(String []args) {
+     MyInterface x; // Create reference (pointer) variable
+
+     A a = new A();
+     B b = new B();
+
+     x=a;  //Ref of A.method1 is assigned to x.method1
+     x.method1();
+     x=b;
+     x.method1();
+     x= new C();
+     x.method1();
+     x=null;
+     x.method1();//Exception will be raised NullPointerException
+  }
+}
+
+/* 
+ MyInterface x;   When we create reference variable, the JVM 
+                  creates a virtual method table or virtual
+                  table.
+
+  x
+ |----------------------|
+ | Method   | Reference |
+ |----------|-----------|
+ | method1  | null      |
+ |----------------------|
+
+ A a = new A();
+ |----------------------|
+ | Method   | Reference |
+ |----------|-----------|
+ | method1  | 1000      |
+ |----------------------|
+
+
+ B a = new B();
+ |----------------------|
+ | Method   | Reference |
+ |----------|-----------|
+ | method1  | 2000      |
+ |----------------------|
+
+x=a;  //Ref of a.method1 is assigned to x.method1
+
+ x
+ |----------------------|
+ | Method   | Reference |
+ |----------|-----------|
+ | method1  | 1000 (a.method1)|
+ |----------------------|
+
+x=b;  //Ref of b.method1 is assigned to x.method1
+
+ x
+ |----------------------|
+ | Method   | Reference |
+ |----------|-----------|
+ | method1  | 2000 (b.method1)|
+ |----------------------|
+
+
+*/
+
+Example: Define "Shape" behavior (Interface is also known as behavior).
+
+interface Shape {
+  void draw();
+  void erase();
+}
+
+and implement "Shape" behavior in your "Circle", and "Rect" classes.
+
+class Circle implements Shape {
+   public void draw() { 
+  
+   }
+   public void erase() { 
+  
+   }
+}
+
+Define the "callback" or "event handling" mechanism
+=============================================================
+We want to write a such code which allow us to replace some "part or portion" of code can be replaced with other code during program execution.
+
+Problem: Create "MyNumber" class with "private int no" field. Write a callback code which invokes a method whenever the value of "no" field is changed.
+
+Steps:
+
+1. First of all we have to define an interface also known as "Listener".
+
+package in.nd;
+
+public interface UpdateListener {
+   void action();
+}
+
+2. Now create "MyNumber" class definition that contains "private int no" and "public UpdateListener changed pointer".
+
+package in.nd;
+
+public class MyNumber {
+  private int no;
+  public UpdateListener changed; // This is placeholder
+
+  public void setNo(int no) {
+     this.no=no;
+     if(changed!=null) {
+        changed.action();
+     }
+  }
+}
+
+3. Create "Handlers" or "Callback" - implementation of    UpdateListener
+
+package in.nd;
+//first callback or handler
+public class MyCallback implements UpdateListener {
+   public void action() {
+     System.out.println("Number has been changed.");
+   }
+}
+
+Test.java
+-------------
+package in.nd;
+
+public class Test {
+  public static void main(String []args) {
+     MyNumber n = new MyNumber();
+     n.setNo(3);
+     n.changed = new MyCallback();  //set callback
+     n.setNo(10);
+     n.setNo(40);
+     n.changed = new YourHandler(); //set new callback
+     n.setNo(44);
+     n.setNo(22);
+  }
+}
+//another callback
+class YourHandler implements UpdateListener {
+  public void action() {
+    System.out.println("Hey, value of no field is 
+           replaced successfully.");
+  }
+}
+
+Example: Design "authorization" (one who have permission to do some tasks) API.
+
+interface UserListener { 
+   void show();
+}
+interface ClerkListener extends UserListener {
+   void add();
+}
+interface AdminListener extends ClerkListener {
+   void delete();
+   void update();
+}
+class MyApp implements AdminListener {
+  /* implements all four actions - show,add,delete & update */
+}
+
+code in main method:
+
+ UserListener u;
+ ClerkListener c;
+ AdminListener a;
+
+ MyApp app = new MyApp();
+ u = app;
+ u.show();
+
+ c = app;
+ c.show(); c.add();
+ 
+ a = app;
+ a.add(); a.update(); a.show(); a.delete();

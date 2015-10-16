@@ -1,0 +1,160 @@
+ Java Date & Time APIs - java.util.Date & java.util.Calendar class
+ ==================================================================================
+ Java's Date & Time APIs has flaw (many issues) so people uses JODA-Time, an open  source date & time library (APIs). However, in JDK8, JavaSE has introduce java.time
+ package which contains enhenced or improved APIs.
+
+ However, there are number of classes in Java which uses java.util.Date &  java.util.Calendar so we must have to learn these classes first.
+
+ The java.util.Date & its methods
+ ---------------------------------
+ Very few methods of this class are in usable state. Nearly 90% methods of "Date"  class are depricated (outdated or remove from service).
+
+ Example: Get system's date & time (current system). (code in main method)
+
+  Date dt = new Date(); 
+  System.out.println(dt);
+
+ Example: Java uses Unix epoch (standard base time) time. Creates an object of Date
+          by setting millis.
+
+          Date dt = new Date(0);   // Epoch time Jan 1st 1970 0:0:0 GMT
+          System.out.println(dt);
+
+ Example: Another way to get system date time
+          Date dt = new Date(System.currentTimeMillis());
+          System.out.println(dt);
+ Example: Compare date objects - after, before and equal methods.
+
+        //Get a date two days before
+        long ms = System.currentTimeMillis();
+        long before2Days  = 1000L * 60L * 60L * 24L * 2L;
+
+        System.out.println(ms);
+        System.out.println(before2Days);
+
+        Date now = new Date();
+        Date dt = new Date(ms-before2Days);
+
+        System.out.println(dt);
+       
+        if(dt.after(now)) {
+            System.out.println("dt is smaller than now");
+        } else {
+            System.out.println("dt is before the now");
+        }         
+ 
+Format & Parse the Date & Time
+-------------------------------------------------------------
+To format a date means to convert date object to string.
+To parse a date means to convert "string date" to Date object.
+
+We will have to use java.text.SimpleDateFormat object with following set of format characters. (See java.text.SimpleDateFormat documentation).
+
+ Y - year
+ M - Month  MMM for abbr, MMMM for full name
+ d - day number
+ E - day name
+ H - 24 hour
+ h - 12 hour
+ m - minute
+ s - second
+ a - Am/PM
+
+   Date dt = new Date();
+   SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-y hh:mm:ss a");
+   String strDt = sdf.format(dt);
+   System.out.println(strDt);
+
+ Example: Parse a string date & time.
+
+        String strDt = "31-12-2005 17:30:20";
+        String pattern = "dd-MM-yyyy HH:mm:ss"; //same format of strDt value
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+
+        Date dt = null;
+        try {
+            dt = sdf.parse(strDt);
+        } catch (ParseException ex) {
+            System.out.println(ex);
+        }
+        System.out.println(dt);
+
+The java.util.Calendar class
+------------------------------------------------------------
+This class is introduced to enhance the Date & Time apis but it still has some issue however it offers much more features then Date class.
+
+Example: Creates an object of Calendar class. Note that the Calendar is an abstract class and we cannot instantiate via "new" keyword.
+So here in Calendar class, we have a static method "getInstance()" which returns an instance of "Calendar".
+
+Example: Calendar.get(FIELD) and Calendar.set(FIELD,value) methods are used to get or set date & time part respectively.
+
+         //Obtain Calendar object
+         Calendar c = Calendar.getInstance();
+         
+         //Calendar.get(FIELD) method
+         System.out.println( c.get(Calendar.DATE));
+         //Month begins with 0, hence Jan is consider as 0
+         System.out.println( c.get(Calendar.MONTH));
+         System.out.println( c.get(Calendar.YEAR));
+         System.out.println( c.get(Calendar.DAY_OF_YEAR));
+         System.out.println( c.get(Calendar.HOUR));
+             
+         //Calendar.set() - to update parts
+         c.set(Calendar.DATE, 10);
+         c.set(Calendar.MINUTE, 1);
+         
+         System.out.println(c);
+ Example: java.util.Date to java.util.Calendar and vice-versa.
+
+        Calendar c = Calendar.getInstance();
+         //Calendar to Date
+         Date dt = c.getTime();
+         System.out.println(dt);
+         
+         //Date to Calendar
+         Date dt1 = new Date(100000000L);
+         c.setTime(dt1);
+         System.out.println(c);
+
+ Example: Add or subtract parts.
+
+        Calendar c = Calendar.getInstance();
+         System.out.println(c.getTime()); 
+         //Add or subtract parts
+         c.add(Calendar.DATE, -100); // c.add(Calendar.DATE, 100);
+         System.out.println(c.getTime()); 
+
+
+java.util.Locale class
+-----------------------------------------------------------------------------
+Locale object represents the language (English, Hindi etc) and country. The Locale describes the culture for number, string format and Date & time.
+
+Example: List the available "Locales" in Java platform.
+
+         Locale []locales = Locale.getAvailableLocales();
+          for(Locale l : locales) {
+              System.out.println(l + " " + l.getCountry());
+          }
+Example: Create Calendar using "jp_JP" (Japan) locale.
+
+  Calendar cal = Calendar.getInstance(new Locale("jp_JP"));
+  System.out.println(cal); 
+
+java.util.TimeZone class
+---------------------------------------------------------------------------------
+TimeZone object represent Date & time's time zone. Default is GMT. TimeZone is repsent as "Asia/Culcatta" or "Asis/Kolkatta", "asia/karachi" etc.
+
+Example: List the avialable timezones.
+
+           for(String id: TimeZone.getAvailableIDs()) {
+                System.out.println(id);
+            }
+
+
+Example: Get the calendar instance of "asia/karachi"
+
+   Calendar cal = new Calendar.getInstance(TimeZone.getTimeZone("Asia/Karachi"));
+   System.out.println(cal);
+
+
+ 

@@ -1,0 +1,335 @@
+ Inheritance
+ ============================================================
+ To create a new type (class) from existing type without  copying-pasting and this technique is known as "Inheritance".
+
+ The newly created class is called "Sub" or "Derived" class and
+ the class which is used to create a new class is called "Super"
+ or "Base" class.
+
+ Why we should have to learn the inheritance or why we have to
+ use the inheritance?
+
+ In some cases where we are not able to create classes having
+ functionalities exists in other classes due to lack of  knowledge or time or resources. The "Inheritance" feature allow
+ us to create a new class from the "Existing" class that means
+ this feature allow us to reuse the "Form" (of existing class) and newly defined class is nothing new but it is one of the existing class.
+
+ In addition, we can add more actions into newly defined class and this kind of facility allow us to "Improve" the existing class without updating/modifying existing class.
+
+ We use Inheritance because it supports:
+       1. Reusability and (Reuse compiled code without 
+			  updating the existing class)
+       2. Extendability (Add more actions)
+
+ Bascially super classes are acting as "Architecture" or  "Infrastructure" class.
+    for example, 
+         in Java, we create sub classes of java.awt.Applet to
+		  define our applets
+                  we create sub classes of javax.servlet.http.HttpServlet to define "servlet" classes.
+                  We create sub classes of java.lang.Object to
+		 define POJO - Plain Object Java Object (or JVM 		object).
+
+ As we know that each Java class (User defined or APIs) is a sub-class of java.lang.Object. The java.lang.Object is the root class of all classes in SE,EE,ME, Android, Spring and other APIs.
+
+
+General Syntax:
+
+access-modifier class ClassName extends SuperClass
+                                implements interface1,2,.... {
+}
+
+NOTE: implments clause must appear after the "extends" clause.
+
+A class must have one and only one direct super class but a class can have more than one indirect super classes and this feature is known as "Transitiveness of Inheritance".
+
+For example,
+
+class A { }  // whose direct super class is java.lang.Object
+
+class B extends A { } // direct super class is A
+
+
+But java.lang.Object is indirect super class of class B. It means class B has two super classes - A and java.lang.Object
+
+
+Understand the object-subobject 
+-------------------------------------------------------------
+Conside the following code:
+
+class A {
+  int no;
+}
+class B extends A {
+  int no;
+}
+
+class Test {
+   public static void main(String []args) {
+      B b = new B(); //We have three objects into a graph
+
+      //Now select parent from child reference - And this
+      //behavior is called "Implicit Cast".
+      
+      A a = b; 
+      a.no = 100;
+      b.no = 200;
+
+      System.out.println( a.no + " " + b.no );
+
+      //Explicit cast
+      Object x = b; // or Object x = new B();
+      B y = (B) x;
+      A z = (B) x;
+      y.no =9; z.no =10;
+      System.out.println(  ((A)x).no ); // Explicit
+      System.out.println(  ((B)x).no ); 
+
+      x= new B(); //Valid
+      x = new A(); //valid
+   }
+}
+
+B b = new B(); 
+
+When we create an object of a class then JVM creates object of top-most super class in that order in which they are extended.
+
+Now we want to select an object from that graph (object-subobjects) then we've to use "cast" mechanism.
+
+Casting
+==========
+ Select object reference from child or parent class reference.
+
+   1. Implicit Cast (Automatic cast)
+        Select parent object reference from child object 	        reference.
+ 
+         Example:
+               B b = new B();
+               Object o = b;
+               A a = b;
+               Object p = new A();
+               p = new B();
+               p = "Hello"; // new String("Hello");
+
+   2. Explicit cast (Force cast)
+
+       Select child (subobject) reference from parent object
+	reference.
+            Example:
+                     Object x = new B();
+                     A y= (A) x;
+                     B z = (B) y; // or (B)x;
+                     String str = (String) x; // During  runtime
+	 	          // it throws ClassCastException         Example: Print length 
+          Object str = "Hello";
+          s.o.p( ((String)str).length() );
+
+Determine the instance type (class) using instanceof operator.
+---------------------------------
+The instanceof expression returns boolean value.
+
+    refVar instanceof TypeName
+
+Example:
+
+   Object o1 = new Integer(10);
+   s.o.p( o1 instanceof String); // false
+   s.o.p( o1 instanceof Number); // true
+   
+    Object str = new Integer(10);
+    if( str instanceof String ) {
+      s.o.p( ((String)str).length() );
+    } else {
+      s.o.p("Not a string type.");
+    }
+
+Example: Print class name of an object via java.lang.Object's getClass() method.
+
+ The getClass() method returns an instance of loaded class of   class java.lang.Class.
+
+  String str= "Hello";
+  s.o.p( str.getClass().getName() );
+  Object o = str;
+  s.o.p( o.getClass().getName() );
+
+
+
+Method overriden
+====================
+Important: Only methods of super class are overriden by the sub-classes.
+
+Method overriden or supersede means to redefine a super class's
+method into sub-classes with same signature (same access modifier, parameters, return type and same name).
+
+Why we have to override super's implementation (methods)?
+
+   Some of the super class methods behavior is found inappropriate for us then we must have to replace the
+super's implementation with our new code/method.
+
+For example, In Java we will have to use "equals" method to compare two objects. We cannot use == operator to compare them.
+
+The equals() method is found at java.lang.Object class but it always returns false.
+
+Example: Test equals method and object reference comparision.
+
+[Note: Do not use == equality operator to compare object data. Use equals instead.]
+
+package in.nd;
+
+class Product {
+   private int id;
+   private String name;
+   public Product(int id,String name) {  
+     this.id = id; this.name = name;
+   }
+
+   //Override
+   public boolean equals(Object obj) {
+      if( obj == null ) return false;
+
+      Product other = (Product) obj;
+      if( other.id != id ) return false;
+      if( !other.name.equals( name ) ) return false;
+      return true;
+   }
+} 
+public class Test {
+   public static void main(String []args){
+      Product p1 = new Product(11,"Pen"); 
+      Product p2 = new Product(10,"Pen");
+
+      if(p1 == p2 ) { // Wrong! we're comparing refrences
+        System.out.println("Eq");
+      } else {
+        System.out.println("Not Eq");
+      }
+
+      /* Note: Remove "equals" definition from Product class
+               and see what happens? */
+      if(p1.equals(p2) ) { 
+        System.out.println("Eq");
+      } else {
+        System.out.println("Not Eq");
+      }
+
+      /* The number of classes in Java have overriden equals
+         and other methods of java.lang.Object class. */
+      String s1 = new String("Hello");
+      String s2 = new String("Hello");
+
+      if(s1.equals(s2) ) { // s1 == s2 is wrong!
+        System.out.println("Eq");
+      } else {
+        System.out.println("Not Eq");
+      }
+   }
+}  
+
+We will have to override two more methods of java.lang.Object:
+
+1. public int hashCode() - It returns a "hash" (integer value)    which is produced based upon the object data as per your    algorithm.
+
+   It means if objects have same amount of data then this method
+   produce common or equal "hash" value.
+
+2. public String toString() - It returns a string containing    object information for debug or understand purpose.
+
+Example:
+
+class Product {
+   private int id;
+   private String name;
+   public Product(int id,String name) {  
+     this.id = id; this.name = name;
+   }
+
+   //Override
+   public boolean equals(Object obj) {
+      return hashCode() == obj.hashCode();
+   }
+   public int hashCode() {
+       //Our own algorithm (sum of hashCode of fields)
+       int hash = new Integer(id).hashCode();
+       hash = hash + (name!=null ? name.hashCode() : 0);
+       return hash;
+   }
+   public String toString() {
+      return id + " " + name;
+   }
+} 
+code in main:
+      Product p1 = new Product(10,"Pen"); 
+      Product p2 = new Product(10,"Pen");
+ 
+      String s1 = "Hello";
+      String s2 =  "hello";
+      System.out.println( p1.hashCode() + " " + p2.hashCode());
+      System.out.println( s1.hashCode() + " " + s2.hashCode());
+
+     
+      System.out.println( p1.toString() );      System.out.println( p1 ); //invoke toString() automatically
+      System.out.println( p2 );
+
+How overriden works?
+---------------------------
+When we create an object any class then JVM create Virtual Method Map (Table) (Same as we learnt in inteface).
+
+Example:
+package in.nd;
+class Language {
+   public void speak() {
+      System.out.println("I can speak.");
+   }
+}
+class English extends Language {
+    public void speak() {
+        System.out.println("I can speak English.");
+    }
+}
+class Gujarati extends Language {
+    public void speak() {
+        System.out.println("I can speak Gujarati.");
+    }
+} 
+public class Test {
+   public static void main(String []args){
+      Gujarati g = new Gujarati();
+      English e = new English();
+      g.speak();
+      e.speak();
+      Language l = null;
+      l = g;   
+      l.speak();
+      l = e;   
+      l.speak();
+   }
+}  
+Gujarati g = new Gujarati();
+|-----------------------|
+| Method  |   Reference |
+| speak   |  Gujarati.speak
+|-----------------------|
+
+English e = new English();
+|-----------------------|
+| Method  |   Reference |
+| speak   | English.speak
+|-----------------------|
+
+Language l = null;
+|-----------------------|
+| Method  |   Reference |
+| speak   |  null|
+|-----------------------|
+l=g;
+|-----------------------|
+| Method  |   Reference |
+| speak   |  Gujarti.speak|
+|-----------------------|
+l=e;
+|-----------------------|
+| Method  |   Reference |
+| speak   |  English.speak|
+|-----------------------|
+
+
+

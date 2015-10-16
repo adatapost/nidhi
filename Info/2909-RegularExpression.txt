@@ -1,0 +1,98 @@
+ Regular Expression
+ ==========================================================
+
+ Regular Expression is a mathematics theory through which we can search/find, delete,  replace and split the "strings".
+
+ In this theory, first of all we have to define a "pattern" using some special pattern  characters. 
+
+ In Java, Regular Expression library is designed under java.util package.  Classes java.util.regex.Pattern and java.util.regex.Matcher define the "RegularExpression" behavior.
+
+ Pattern and Matcher classes uses following character classes to create a string  pattern.
+
+
+ Char class	Meaning
+ =========================================================
+   .		It matches any char
+  [ ]		It matches any char that exists inside the [] set.
+		e.g [pag] 
+                    [a-z]
+                    [a-zA-Z0-9]
+  ()		It matches any group char. () is called group
+	        e.g (Red|Blue|Black) -- Red or Blue or Black
+
+  \d		It matches any digit char
+  \D		It matches any non-digit char
+  \w		It matches any word char (a-z A-Z 0-9)
+  \W		It matches any non word char
+  \s		It matches any whitespace
+  \S		It matches any non-whitespace
+  
+ Note: All above char represent single char only. You can have to use following  quantifiers for multiple occurences of chars.
+
+ ?		It matches zero or one char
+ *		It matches zero or more chars
+ + 		It matches one or more chars
+ {n}		It matches exact "n" chars
+ {n,m}		It matches chars between "n" to "m"
+
+ Boundry marker char
+ ^		Begin of the pattern
+ $		End of the pattern
+
+Example: Create a pattern to find a substring.
+
+   String pattern = "red";
+   String input = "The red sun";
+   if(Pattern.matches(pattern,input))
+      //found
+   else
+      //not found
+
+Example: Create a pattern to validate a string. Code's first char must be A or B or C
+	 and next char must be 1,2,3,or 4
+
+     String pattern = "[ABC][1234]"; //[A-C][1-4]
+     String input = "D2";
+     System.out.println( Pattern.matches(pattern, input) ); //false
+     input = "A4";
+     System.out.println( Pattern.matches(pattern, input) ); //true
+
+Use an extra escape char or backslash if pattern contains \CHAR  character
+
+Example: Matches a pincode (6 digits)
+
+     String pattern = "\\d{6}";  //or "\\d\\d\\d\\d\\d\\d";
+     String input = "282732";
+     System.out.println( Pattern.matches(pattern,input));
+
+Example: Matches gujara't pin - begins with digit 3 -  "3\\d{5}";
+Example: Email (simple)  - "\\w+[@]\\w+[.]\\w+";
+         Enhance         - "\\w+([.]\\w+)*[@]\\w+([.]\\w+)*";
+
+Example: Date (dd/mm/yyyy) :  "\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}";
+
+Example: Split the string (String.split method) - It splits string based upon the given pattern and returns an array of strings.
+
+        String value = "10,20,30,40,50.55.66";
+        String []array = value.split("[,.]");
+        for(String s: array)
+            System.out.println(s);
+
+Example: String.replace(search_string, replace_string)
+         String.replaceAll(search_pattern,replace_string) - replaceAll() method uses
+         regular expression to replace the value of search pattern.
+
+String str= "The red sun and red rose";
+str = str.replace("red","white").replace("sun","moon").replace("and","or");
+Systme.out.println(str);
+
+
+str = "Th1e2 re1d s3un an2d33 re4d ro5se";  //Remove digits from the string
+str = str.replaceAll("\\d+","");
+System.out.println(str);
+
+         
+
+
+      
+

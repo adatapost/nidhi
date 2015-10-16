@@ -1,0 +1,96 @@
+ Generics or Templated Data types
+ ============================================================
+
+ The word "Generics" refer the "general purpose". To design such
+ a "Type" which can be used with different kind/type of   "Datatypes" - this is the main goal of "Generics".
+
+ For example, To create "Stack" class which represent int items, 	should be:
+
+        class StackInt {
+               private int []items;
+               public void push(int item) {}
+               public int pop() { }
+        }
+ And to create "Stack" class for "float" data,
+        class StackFloat {
+               private float []items;
+               public void push(float item) {}
+               public float pop() { }
+        }
+ And to create "Stack" for "string", "long", "Student", "Emp" and so on.Here, we must have to create separate class definition for different "TYPES" of data.
+	
+To solve above mentioned issue, generics or templated types, is used.
+
+Syntax:
+
+class ClassName<Type1,Type2,...> extends ClassName1<Type,...>
+                                 implements Interface1<Type...> {
+//
+}
+
+interface InterfaceName<T1,T2,..> {}
+
+The "Generics" is Java language (compiler) feature which allow us to "pass" datatype (TYpes) to another "Type" or "Method".
+
+The <> is called "Diamond" operator and indentifiers inside the diamond operators are called "Type parameters".
+
+The "Type" parameter must be a sub-class of java.lang.Object. So, we cannot use "primitive" type (byte,int, float etc) with "Generics" -- instead we must have to use wrappers - Byte, Integer, Float etc.
+
+The name of "Type" parameter should be upper alphabet however, you can choose your own type-name.
+
+For example,
+
+ class Test<A,B,C> {} // three type parameters
+ class Test<one,two> {} // two type parameters
+
+Note: It is good practice to use upper letter.
+
+Example:
+
+class Data<T> {
+  private T value; 
+  public Data(T value) {
+       this.value = value;
+  }
+  public void setValue(T value) { this.value = value;}
+  public T getValue() { return value;}
+}
+// T stands for Type - you can choose any other name
+
+code in main:
+
+  Data<Integer> a = new Data<Integer>();
+  //Error  - Data<int> a  = new Data<int>();
+   Data<String> b = new Data<String>();
+   Data<Double> c = new Data<>(); // <> empty diamond
+   a.setValue(10);
+   b.setValue("Hello"); 
+   c.setValue(10.10);
+   System.out.println(a.getValue() + " " + b.getValue() 
+                            + " " + c.getValue());
+
+Example: Stack class
+
+public class Stack<T> {
+   private T []items;
+   private int index = -1;
+    
+   public Stack(T []items) { this.items= items;}   
+
+   public void push(T item) {
+     index++;
+     items[index] = item;
+   }
+   public T pop() {
+      return items[index--];
+   }
+}
+
+code in main:
+
+ Stack<Integer> stkInt = new Stack<>(new Integer[5]);
+ stkInt.push(10);
+ stkInt.push(20);
+  stkInt.push(30);
+  System.out.println( stkInt.pop()); // 30
+  System.out.println( stkInt.pop()); // 20

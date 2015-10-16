@@ -1,0 +1,22 @@
+ java.util.Scanner - Read value from the keyboard
+ -------------------------------------------------------------
+ code in main:
+
+   java.util.Scanner sc = new java.util.Scanner( System.in );
+
+   int age;
+   String name;
+
+    System.out.print("Enter your name : " );
+    name = sc.next(); // or sc.nextLine()
+    System.out.print("Age : ");
+    age = sc.nextInt();
+    System.out.print("Percentage  : ");
+    float per = sc.nextFloat();
+
+    System.out.println( age + " " + name +  " " + per);
+
+Example: Input five numbers into an array and find out the largest and          smallest element.
+
+
+    

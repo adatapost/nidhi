@@ -1,0 +1,13 @@
+ POJO - Plain Object Java Object
+ Or
+ Java Beans
+ -------------------------------------------------------------
+ Each POJO or Java beans is a Java class which is designed using
+ standard naming conventions and contraints - private fields,  constructors, public getter & setter methods.
+
+ In addition to these members, POJO or Bean also have override
+ methods - toString, hashCode and equals.
+
+ POJO or Beans also known as "Model" class.
+
+   

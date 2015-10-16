@@ -1,0 +1,49 @@
+ Singleton Design Pattern
+ ============================================================
+ To design a class which allow us to create a "single" instance
+ of that "class" and then this instance used thoughout the  application life.
+
+ [Singleton means single instance]
+
+ To design, singleton class, prevent user to create an object using "new" keyword. Define constructor as "private".
+
+Example:
+
+public class AppSettings {
+    private String username;
+    private String password;
+    private String server;
+
+    //1. private constructor
+    private AppSettings(){}
+ 
+    //public getters & setters
+    .....
+    .....
+
+    //2. define a private static reference variable
+    private static AppSettings app;
+
+    //3. create static "singleton" method
+    public static AppSettings getInstance() {
+       if(app == null) {
+          app=new AppSettings();
+       }
+       return app;
+    }
+}
+
+code in main:
+
+AppSettings a =  AppSettings.getInstance();
+a.setUsername("abc");
+a.setPassword("pqr");
+a.setServer("123.2.2.3");
+AppSettings b =  AppSettings.getInstance(); 
+System.out.println(b.getUsername());
+
+System.out.println( AppSettings.getInstance().getServer());
+AppSettings.getInstance().setServer("192.167.43.2");
+System.out.println( AppSettings.getInstance().getServer());
+System.out.println(a.getServer()); 
+

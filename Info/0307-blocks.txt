@@ -1,0 +1,47 @@
+ Blocks - instance block { } and static block static{ }
+ -------------------------------------------------------
+
+  static { } block
+  -----------------
+  The static blocks are executed only once when a class in which they
+  are created is used very first time in your app.
+
+   {} block (Instance)
+  -----------------------
+  They are executed in the order in which they are created but just   before the execution of constructors.
+
+Example:
+package in.nd;
+
+class Foo {
+  public Foo() {
+    System.out.println("Constructor.");
+  }
+  {
+     System.out.println("Instance#1");
+  }
+
+  static {
+     System.out.println("Static@1");
+  }
+  {
+     System.out.println("Instance#2");
+  }
+ static {
+     System.out.println("Static@2");
+  }
+  {
+     System.out.println("Instance#3");
+  }
+} 
+public class Test {
+  static {
+     System.out.println("Hello from Test");
+   }
+   public static void main(String []args){
+        Foo foo1=new Foo();
+        Foo foo2=new Foo();
+   }
+}
+  
+ 

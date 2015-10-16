@@ -1,0 +1,183 @@
+Open Access Journals Research & publication
+================================================
+
+What is Journals?
+
+A journal means periodical record of things - diary, events, academic study, or business. Mainly, it is related to publication business where publications issued at stated intervals, such as academic journals, or the record of the transactions of a society, or research records etc. These are often called journals.
+
+In academic use, a journal refers to a serious, scholarly publication that is peer-reviewed. A non-scholarly magazine written for an educated audience about an industry or an area of professional activity is usually called a trade magazine.
+
+In other words, a Journal that is published periodically (monthly, bi-monthly, half monthly, or yearly) and each publication may contains more than one articles; peer-revieved papers.
+
+What is Open Access?
+-----------------------
+
+The first definition of open access was provided by the Budapest Open Access Initiative in February 2002 (http://www.budapestopenaccessinitiative.org/) and it envisages “free and unrestricted online availability” of journal literature, i.e. readers can access publications free of charge.
+
+The entire content of all present and past journals is immediately and permanently accessible online free of charge and published under the CC-BY license, which permits unrestricted use, distribution, and reproduction in any medium, provided the original authors and the source are credited.
+
+Open access is often - rather mistakenly - associated with the idea of free publication, despite the fact that open access literature is not without cost to produce - but what is the cost for free dissemination of scholarly research?
+
+Is it free to produce an open access article?
+
+No. The costs of producing an article are somewhat fixed and cover among others manuscript editing, formatting, standardizing, indexing, etc. The introduction of the electronic format has allowed to significantly reduce these expenses, but they still remain a cost that needs to be covered to allow quality publications. Even though the recent advances of technology nowadays allow efficient cost control on the support of online publications, the costs consistently include server space for database storing, maintenance of a professional editorial team, and constant IT development - at the least.
+
+Goal / Objectives
+=================
+Our grand vision is to build an Open platform where everybody has equal opportunity to seek, share and generate knowledge, and that empowers researchers in their daily work.
+
+The development of open access journal providing the technical infrastructure not only for the online presentation of journal articles, but also an entire editorial management workflow, including:
+ 
+  1. Community-driven journals.
+  2. Article submission - Research topics
+  3. Reviews - Rigorous, fair, constructive, transparent 
+     and efficient as enabled by our custom-built 
+    "Review Forum" web software;  
+  4. Impact factor & Impact Matrix - The impact factor is a
+     measure of the frequency with which the average article 
+     in a journal has been cited in a particular year. 
+     The JCR also lists journals and their impact factors 
+     and ranking in the context of their specific field(s).
+  5. Idexing - Searching. 
+
+
+Abstract 
+=========
+
+Open access (OA) journals are scholarly journals that are available online to the reader "without financial, legal, or technical barriers other than those inseparable from gaining access to the internet itself. 
+
+Open Access Journal is a software for the management of peer-reviewed journals. It facilitates the development of open access, peer-reviewed publishing, providing the technical infrastructure not only for the online presentation of journal articles, but also an entire editorial management workflow, including article submission, multiple rounds of peer-review, and indexing. It relies upon individuals fulfilling different roles, such as the Journal manager, editor, reviewer, author, reader, etc. It has a module that supports subscription journals.
+
+Open Access Journal system should be well equaipped with following basic things:
+ 
+ 1. Editors, sections, review process, etc.
+ 2. Online submission and management of all content.
+ 3. Subscription module with delayed open access options.
+ 4. Comprehensive indexing of content part of global system.
+ 5. Reading Tools for content, based on field and editors’ choice.
+ 6. Email notification and commenting ability for readers.
+ 7. Complete context-sensitive online Help support.
+ 8. Easy payment options
+ 9. Transparent system management
+10. Community-run Journals
+
+This system assists with every stage of the refereed publishing process, from submissions through to online publication and indexing. Through its management systems, its finely grained indexing of research, and the context it provides for research, it seeks to improve both the scholarly and public quality of refereed research.
+
+It is made freely available to journals worldwide for the purpose of making open access publishing a viable option for more journals, as open access can increase a journal’s readership as well as its contribution to the public good on a global scale.
+
+In successively looser senses, open access journals may be considered as:
+ 1. Journals entirely open access
+ 2. Journals with research articles open access (hybrid open access journals)
+ 3. Journals with some research articles open access (hybrid open access journals)
+ 4. Journals with some articles open access and the other delayed access
+ 5. Journals with delayed open access (delayed open access journals)
+ 6. Journals permitting self-archiving of articles
+
+Open access journals divide into those that charge publication fees and those that do not.There are two types of open access journals. 
+
+ 1. Fee-based open access journals
+
+    Fee-based open access journals require payment on behalf of the author. The money might come from the author but more     often comes from the author's research grant or employer. In cases of economic hardship, many journals will waive all or     part of the fee. 
+ 2. No-fee open access journals
+
+Impact Matrix
+---------------
+We want provid online impact metrics for articles. The impact metrics that measure the overall performance and reach of articles and authors in an objective and crowd-sourced way.
+These metrics are available immediately for every article published via this application, as well as their authors. 
+
+The metrics offer a real-time view of:
+1. Views downloads
+2. Citations
+3. Social buzz (through altmetrics.com data)
+4. Visitor demographics including: age, 
+    region and field of interest
+5. Aggregated author impact metrics based on all of the above
+6. Top referring sites
+
+
+Community-run Journals
+-------------------------
+"Community-run Journals" means that we want to put our publishing platform into the hands of competent representatives of the academic community in the objective to publish articles that present sound and valid findings.
+
+We want to take great care to appoint only leading experts in their fields and specialties according to strict criteria of excellence. Once appointed, researchers are empowered to take editorial decisions to accept or reject articles. 
+
+Editorial power is distributed across the editorial boards, and focuses on the Associate Editors. We trust that these experts, selected according to strict criteria of excellence, can take acceptance decision and together with the reviewers can certify the soundness of the research presented in the articles with their names. 
+
+Hence the distributed power comes with responsibility, accountability and recognition of services to the community.
+
+This app operates its programs based on a commitment to society and knowledge conducted in a collaborative spirit, openly shared, and assessed exclusively for its merit. These commitments guide us in defining our editorial policy and processes, which aim to be fair and constructive to authors, effective and efficient. 
+
+The publishing model of community-run journals:
+
+1. 
+Provides a clean separation of editorial responsibility by placing the decisions related to content solely in the hands of active researchers, in the spirit of full editorial independence; Staff of Program and Journal Managers support  scholars in their daily responsibilities and promote the journals and their products, but do not take editorial decisions over content.
+
+2.
+Defines an objective threshold for article acceptance, based on unanimous consensus that the paper represents a sound contribution that the reviewers, who endorsed publication, and editor can publically validate with their name on the published article;
+
+3.
+Balances this responsibility across entire editorial boards, so that a broader group of leaders within any research community can shape the direction of science; the many thousands of Associate Editors are authorized to make the acceptance decision.
+
+4.
+Empowers Chief Editors with technology that allows them to oversee, intervene and otherwise advise throughout the peer-review process.
+
+5.
+Encourages all involved to act ethically and responsibly through its policy of full transparency by publishing the names and affiliations of the reviewers and handling editor on accepted articles.
+
+
+Transparency, distribution of editorial power across many leaders in a community, and the requirement for consensus are a fundamental part of the principles to uphold integrity in academic publishing.
+
+Editorial Roles
+================
+
+Editorial Boards determine the suitability and quality of academic content within each discipline, while the policies ensure that the consistency of this model is maintained across all of our publications. This ensures that the editors operate in the spirit of full editorial independence.
+
+
+1. The Review Editor
+ ------------------
+
+The primary role of the Review Editor is to provide an expert review of articles in a collaborative, transparent and efficient manner. Administrator acknowledges the role of the reviewer by naming the person to the editorial board and by publishing the name of the Review Editor on every published paper. 
+
+2. The Associate Editor
+------------------------
+The primary role of the Associate Editor is to directly oversee the interaction between the Review Editors and Authors during the collaborative peer-review process. 
+The role includes ensuring that the review is carried out according to the peer-review guidelines, as well as coaching and assisting of the Review Editors to carry out their role. 
+The Associate Editor makes the final acceptance decision by ensuring all quality, validity and ethical standards have been met and that at least two reviewers agree to the publication. They also can recommend rejection of a manuscript if reviewers judge that an article does not meet the standards required.
+
+3.
+The Specialty Chief Editor
+------------------------------
+The Specialty Chief Editor has the ultimate responsibility for leading, guiding and supervising the activities related to his or her Section. The Specialty Chief Editor is expected to define the editorial scope and ambition of the Specialty Section and to maintain a strong board of Associate Editors (who handle the actual review process). The Specialty Chief Editor is fully empowered to act at all levels and at any stage of the peer-review process in a system of editorial "checks and balances."
+
+4.
+The Field Chief Editor
+-------------------------
+The Field Chief Editor leads and supervises the Field Journal with the aim to build the community of researchers in the field, drive publications to fully represent the research activity of the community, and build the quality and reputation of the field. 
+The primary task of the Field Chief Editor is to build, support and maintain a college of Specialty Chief Editors, who together provide comprehensive expertise across the Field and who are recognized and respected authorities in their area of interest. 
+The Field Chief Editor is expected to define the editorial scope and ambition of the Field Journal through the preparation of a Mission Statement and the publication of a Field Challenge article. 
+The Field Chief Editor leads the college of Specialty Chief Editors in the implementation of the Frontiers publishing model and collaborative review guidelines, monitoring their tasks, encouraging team spirit, and taking the lead on building the reputation of the journal.
+
+5.
+Staff
+-------------------
+Staff span a wide range of expertise from software engineers to scientists, which support the operations of the journals and research network.  
+
+Approaches used to design & develop the application
+=============================
+There are a number of approaches for managing project activities including lean, iterative, and phased or traditional (waterfall) approaches. Regardless of the methodology employed, careful consideration must be given to the overall project objectives, timeline, and cost, as well as the roles and responsibilities of all participants and stakeholders.
+
+
+Lean project management uses the principles from lean manufacturing to focus on delivering value with less waste and reduced time.
+
+Itertative approach - Agile project management encompasses several iterative approaches, based on the principles of human interaction management and founded on a process view of human collaboration. Agile-based methodologies are "most typically" employed in software development as well as the "website, technology, creative, and marketing industries.
+
+
+Total number of users
+================================
+1. Admin/Staff
+2. Editor
+3. Reviewer
+4. Author
+
+
+

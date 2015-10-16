@@ -1,0 +1,51 @@
+ Factory Design Pattern
+ -------------------------------------
+ 
+ This design pattern allow us to create objects smart way - we've a static method which returns an object or an instance  method which returns a copy of an object.
+
+ Sometimes it is too complex to create an object of class  because this step leads number of dependencies. (Especially
+ while creating "Composition" pattern).
+
+Example: Write a "FactoryMethod" which returns "Point" class object and also restricts the user that he/she cannot instantiate your "Point" class using "new" keyword.
+
+public class Point {
+    private int x,y;
+
+   //Private constructors to prevent the instantiatation
+    private Point() {} 
+    private Point(int x,int y) {
+      this.x=x; this.y = y;
+    }  
+
+    //getter-setter - must be public
+    .....
+
+    //Factory method must be static & public
+    //in this case - newInstance()
+
+     public static Point newInstance() {
+         return new Point();
+     }
+     public static Point newInstance(int x,int y) {
+         return new Point(x,y);
+     }
+    
+     //Instance factory method which returns a copy of 
+     //existing object
+     public Point copy() { 
+        return new Point(x,y);
+     }
+}
+
+Code in main:
+
+   Point pt = new Point(); //Error - because of private 			   //	     constructors
+
+   //Call factory methods
+   Point p1 = Point.newInstance();
+   Point p2 = Point.newInstance(20,30);
+  
+   Point p3 = p2.copy(); //Instance factory method
+   Point p4 = p2.copy(); //Instance factory method
+
+Note that the constructors may or may not "private" in factory class design pattern.

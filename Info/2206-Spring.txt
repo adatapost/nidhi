@@ -1,0 +1,26 @@
+ Content
+ ========================================
+ 1. Java Types System
+ 2. Java Language - class , interface, enum & annotations
+ 3. Arrays, exception handling, try-with-resource, Generics
+ 4. Nested types & Inner Types (Anonymous types), Wrappers, Strings.
+ 5. Thread, Collection framework, Date & Time APIs, Locale & TimeZone,
+    Sql APIs, IO streams.
+
+ 6. JSP,Expression Language, Servlet, JavaServer Pages Standard Tag     Library, JAXP - Java API for XML processing, JSON parser, Mail     API.
+ 7. Spring Web MVC Framework, ORM (Hibernate)
+
+ [HTML/CSS/JavaScript - Bootstraps, jQuery etc]
+
+Fees : 15,000.00 with 5000 x 3 installment
+Lumpsum : 13,600.00 (Pay within 1 Month)
+
+
+Java Language + Core APIs = 15,000.00  (4 months)
+Java Core Web : 12,000.00 ( 4months) + HTML/CSS/JvaScript app
+Spring Framework : 12,000.00 (4 months) + HTML/CSS/JavaScript app
+
+============================================
+Problem Definition: Open Access International Journal - a research papers publication system. ( Generic name : Workflow Management System)
+
+

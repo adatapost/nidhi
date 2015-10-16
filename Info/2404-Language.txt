@@ -1,0 +1,141 @@
+ Java Language Basics
+ ----------------------------------------------------------------
+ Java language source code is stored into .java file and the Java 
+ compiler compiles the content of .java file into equivalent instructions of Intermediate Language (IL code) and save IL code or bytecode into .class files.
+
+ Source Program (Sample.java) ==> Compile ==> Bytecode or IL code file
+						(Sample.class)
+
+ For example,
+     The Java is our language and
+     the IL is the Java's language. The operating system cannot understand the IL or bytecode directly because it isn't native code.
+
+     To run the bytecode, we must have start the JVM via "java.exe"      tool. The JVM convert all bytecode (IL) instructions into 
+     equivalent native code (Operating system acceptable code) via         Just-In-Time compiler (JIT). 
+
+ Java program structure
+ ----------------------
+ A .java (source program file) contains three statements in following  order.
+
+   1. package statement;  --- optional statement
+   2. import statements;  --- optional statement
+   3. type definition statements;
+
+
+ 1. package statement
+    The "package" is a mechanism to create a group of related TYPES and keep one group of TYPES distinct from another group of TYPES.
+    It means we can create new TYPES with unique identity and this way
+    we can prevent colliation of TYPES of different users/libraries.
+
+    Syntax:
+  
+       package package1.package2;
+
+       The name of packages must be in lower case letters and there can be two or more levels where each package name is separate with . (dot).
+
+	e.g
+		package in.abc.model
+		package in.nidhi.database;
+
+        The package name should be taken from reverse of your domain name. e.g www.adatapost.com is domain name then package should be:
+          com.adatapost
+ 
+        Second, the package names reflect the file system folders.
+
+Example: Sample.java
+--------------------------
+package in.abc.model;
+
+class A{}
+class B{}
+interface C{}
+
+Now, compile the content of Sample.java
+>javac Sample.java -d .
+
+  [Note: Leave at least one space between each option]
+  
+    -d   will creates folder as per package name. in/abc/model
+    .    describes where (path/location) to create "in/abc/model" and
+	 .class files. Here . (dot) means current directory.
+
+Steps: 
+1. Open Cmd 
+2. Set your working directory
+
+d:\Javaprg\Nidhi> notepad Sample.java
+package in.abc;
+
+class Hello{}
+class Hi{}
+class A{}
+
+Now, save Sample.java and compile it,
+
+d:\javaprg\nidhi>javac Sample.java -d  .
+
+Use explorer or dir command to see the package directories and .class files.
+
+3. To launch/run the .class files (bytecode file),
+
+d:\javaprg\nidhi>java in.abc.Hello
+d:\javaprg\nidhi>java in.abc.Hi
+d:\javaprg\nidhi>java in.abc.A
+
+But, JVM can't execute these bytecode because it requires a entry point main() method. We can use one of the following main syntax:
+
+    1. public static void main(String []args) { .. }
+    2. public static void main(String args[]) { .. }
+
+Now, add main() method in each Hello, Hi and A class.
+
+package in.abc;
+
+class Hello {
+   public static void main(String []args) {
+     System.out.println("Hello");
+   }
+}
+class Hi {
+   public static void main(String []args) {
+     System.out.println("Hi");
+   }
+}
+class A {
+   public static void main(String args[]) {
+     System.out.println("A");
+   }
+}
+
+ 2. import statement - This statement tells the Java compiler that 
+    a specific or all TYPES are belongs to the given package.
+
+Example: Print current system's date & time using java.util.Date
+
+package in.abc;
+
+class Sample {
+  public static void main(String []args) {
+     //create an object of java.util.Date class
+     java.util.Date dt = new java.util.Date();
+     System.out.println(dt);
+   }
+}
+>javac Sample.java -d .
+>java in.abc.Sample
+
+We can see the java.util is a package name of Date class or the full name of Date class is java.util.Date. There is no way to use class name alone - e.g Date dt = new Date(), except you tell the compiler that the Date class belongs to java.util package.
+
+Example:
+package in.abc;
+import java.util.Date;
+
+class Sample {
+   public static void main(String []args) {
+      Date dt = new Date(); //no need to add full name here but we
+	                    //can still use it.
+      java.util.Date dt1 = new java.util.Date(); // Perfectly OK
+      System.out.println(dt);
+      System.out.println(dt1);
+   }
+}

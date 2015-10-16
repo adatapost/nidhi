@@ -1,0 +1,186 @@
+ Nested & Inner Types/classes
+ ==========================================================
+
+ Nested Class
+ ------------
+ A class/type defined inside another class with the help of
+ "static" modifier is called "Nested" class/type.
+
+ Syntax:
+  class EnclosingClass {
+
+     static class NestedClass {
+
+     }
+  }
+
+ Note that the "NestedClass" is not a member of "EnclosingClass"
+ but it is created/defined in it.
+
+ You can use NestedClass (Create an object or extends it) using:
+
+    EnclosingClass.NestedClass varName = new                                  EnclosingClass.NestedClass();
+
+ The main objective to create "Nested" types to create a group
+ of similar TYPES.
+
+For example,
+
+public class School {
+   private String schoolName;
+   ....
+   public static class Student { ... }
+   public static class Staff { ... }
+   public static class Teacher extends Staff { ... }
+   ...
+}
+Now you can see that all classes are grouped under "School" class.
+
+ Inner Classes
+ --------------
+ A class defined inside another class without the use of  "static" modifier.
+ The inner class is a "member" of "enclosing/outer" class so
+ in order to creates an object of "Inner" class, we must have to
+ instantiate the "Outer/Enclosing" class very first.
+
+ Syntax:
+
+ class EnclosingClass {
+   ....
+   class EnclosedClass /* Inner */ {
+      ..
+   }
+ }
+
+ Syntax to create objects of EnclosedClass (Inner) class.
+ 
+    1. Create an object of "Outer/Enclosing" class
+       EnclosingClass varName = new EnclosingClass();
+    2. Create an object of "EnclosedClass/Inner" class via
+	object reference of "Enclosing" class.
+   
+  EnclosingClass.EnclosedClass v1 = varName.new EnclosedClass();      
+  Note that the "Inner" class can access all members of   "Outer" class including private,public, protected or package-  level private.
+
+Example:
+
+public class College {
+   private String branchName;
+   private int count;
+
+   //constructors & getter/setter
+
+   /*:--- Inner class ---:*/
+   public class Student {
+       private String name;
+       private int roll;
+
+       public Student(String name, int roll) {
+              this.name = name;
+              this.roll = roll;
+              /* increment the outer's count field */
+              count++;
+        }
+       //getter & setters - roll & name
+       ....
+       //get branch name
+       public String getBranch()  { return branchName;}
+   }//End of Student class
+}//End of College class
+
+Code in main:
+
+  College ec = new College("EC");
+  College ce = new College("CE");
+
+  System.out.println(ec.getCount() +  " " + ce.getCount());
+  College.Student s1 = ec.new Student("A",10);
+  College.Student s2 = ce.new Student("B",1);
+  College.Student s3 = ce.new Student("D",2);
+  System.out.println(ec.getCount() +  " " + ce.getCount()); 
+
+   System.out.println( s1.getRoll()  + " " + s1.getName() + "" 
+                         +  s1.getBranch());
+
+Anonymous Inner class (Or Local Inner class)
+============================================================
+Following syntax define anonymous or nameless inner classes either by extending a class or implementing an interface.
+
+Note that the "Anonymous" class must be a sub-class or implementation of interface.
+
+Syntax-1 - Extends the class
+
+   ClassName varName = new ClassName() {
+       //override methods here...
+    }; <-- Don't forget to end the statement
+
+Syntax-2 - Implements the interface
+
+   InterfaceName varName  = new InterfaceName() {
+        //implementation
+   };
+
+Anonymous classes are very useful because they can be created inside the class - just like fields and other methods or inside the method or code blocks.
+
+new (? extends ClassName {
+         //override methods of super-class
+         }
+     )
+
+new (? implements InterfaceName {
+         //override methods of interface
+         }
+     )
+
+Example: Override toString() of Object class
+
+ Object sayHello = new Object() {
+    public String toString() { return "Hello Everybody."; }
+ };
+ System.out.println( sayHello );
+
+Example:
+
+public class Language {
+  public void speak() {}
+}
+
+code in main:
+
+  Language gujarati = new Language() {
+    public void speak() {
+      System.out.println("I can speak Gujarati.");
+    }
+  };
+  Language english = new Language() {
+    public void speak() {
+      System.out.println("I can speak English.");
+    }
+  };
+
+
+  gujarati.speak();
+  english.speak();
+
+Example: Implement an interface
+
+public interface Action {
+  double perform(double s1, double s2);
+}
+
+code in main:
+
+ Action add = new Action() {
+   double perform(double s1, double s2) {
+       return s1+s2;
+   }
+ };
+ Action mul = new Action() {
+   double perform(double s1, double s2) {
+       return s1*s2;
+   }
+ };
+
+ System.out.println( add.perform(5,6) );
+ System.out.println( mul.perform(5,6) );
+

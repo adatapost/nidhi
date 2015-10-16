@@ -1,0 +1,107 @@
+ The "static" modifier
+ -------------------------------------------------------------------
+ The "static" keyword is used for number purposes including :
+
+   1. Create an application scope object/variable (Global variable)
+      A global / static variable will be created once when a class
+      in which it is created is used very first time and remains
+      alive till an application is running.
+
+   2. To create non-instance method Or static method or global method.
+       A static/global method means we don't have to create an object
+       to call "static" method. Static methods and variables are 
+       accessed via "ClassName.MemberName" syntax.
+
+
+	For example, our main() method is static so JVM invoke our 
+        main method like:   java Sample.main implicitly
+
+Example:
+
+package in.nd;
+
+class Foo {
+   public static int no;   // static member (non-instance)
+   public int no1;         // instance member (non-static)
+
+   public static void sayHello() {   //static method
+     System.out.println("Hello!");
+   }
+}
+ 
+public class Test {
+   public static void main(String []args){
+      System.out.println( Foo.no ); //0
+      Foo.no = 100;  
+      System.out.println( Foo.no ); //100
+     
+      //To use instance items
+      Foo f1 = new Foo();
+      Foo f2 = new Foo();
+ 
+      f1.no1 = 10;
+      f2.no1 = 20;
+ 
+      System.out.println( f1.no1 + " " + f2.no1 + " " + Foo.no);
+      Foo.sayHello();
+      System.out.println( Integer.parseInt("100") );
+   }
+}  
+
+Example: Add "college" of string and "count" of "int" static field in your student class.
+
+Increment "count" static field by 1 when an object is created.
+
+package in.nd;
+
+public class Student {
+   private int roll;
+   private String name;
+   private static String college;
+   private static int count;
+
+  public Student(int roll, String name) {   //constructor-#1
+     this.roll = roll;
+     this.name = name;
+     count++;
+  }
+  public Student(String name,int roll) {   //constructor-#2
+     this(roll,name); //invoke #1
+  }
+  public Student() {  //constructor-#3
+      this(0,""); //Invoke #1
+  }
+   public int getRoll() { return roll;}
+   public String getName() { return name;}
+   public void setRoll(int roll) { this.roll=roll;}
+   public void setName(String name){ this.name = name;}
+
+   public static void setCollege( String college ) {
+       Student.college = college;
+   }
+   public static String getCollege() { return college;}
+   public static int getCount() { return count;}
+}
+
+code in main:
+
+       Student.setCollege("P.P");
+       System.out.println(Student.getCount() + " " 
+                                 + Student.getCollege());
+       Student s1 = new Student(10,"Raj");
+       Student s2 = new Student(20,"M");
+        
+       System.out.println( Student.getCount());
+
+
+ 3. To create a "static" block -  a pair of { } with static modifier
+     code block is called "static block".
+
+     A static block is mainly used to initialize the static members
+     and also a piece of code.
+
+     Syntax:
+
+        static {
+           //statements
+        }

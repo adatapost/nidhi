@@ -1,0 +1,154 @@
+ Set<T> collection
+ =================================================
+ HashSet<T> and TreeSet<T> are set classes which represents unique objects. Set collection required a hashCode() and equals() to eliminate the duplicate object.
+
+ Example: Set of "strings"
+
+        HashSet<String> cities = new HashSet<>();
+        System.out.println(cities.add("Meh"));
+        System.out.println(cities.add("Pat"));
+        System.out.println(cities.add("Meh"));
+        
+        for(String city: cities) {
+            System.out.println(city);
+        }
+
+        String removeCityName = "Pat";
+        cities.remove( removeCityName );
+
+        System.out.println("List after removal..");
+        for(String city: cities) {
+            System.out.println(city);
+        }
+Example: Set of "Products" - Define a "Product" class with hashCode and equals methods.
+
+
+ Set<Product> products = new HashSet<>();
+ products.add( new Product(1,"Pencil") );
+
+ products.add( new Product(2,"Pen") );
+
+ products.add( new Product(3,"Book") );
+ 
+
+ for(Product product: products) {
+   System.out.println(product.getId() + " " + product.getName());
+ }
+
+
+Map<K,V> collections - HashMap<K,V>, Hashtable<K,V>
+------------------------------------------------------------------------
+
+Example: Represent city and pin
+
+HashMap<String,Integer> cities = new HashMap<String,Integer>();
+
+//add Key-Value pair or update a value
+//put(key,value) method
+
+cities.put("Mehsana",384001);
+cities.put("Patan",394922);
+cities.put("Rajkot",39222);
+cities.put("Patan",387002); // replace/update a value of "Patan" key
+
+//search a key (city)
+
+if(cities.containsKey("Mumbai")) {
+   //get value
+   System.out.println(cities.get("Mumbai"));
+} else {
+   cities.put("Mumbai",400202);
+}
+
+//get value of given key (city)
+System.out.println( cities.get("mehsana") );  //null
+System.out.println( cities.get("Mehsana") ); 384001
+System.out.println( cities.get("Patan") ); //387002
+
+//keySet() - Returns key's set collection
+for(String city: cities.keySet()) {
+   System.out.println(city + " : " + cities.get(city));
+}
+
+//values() - Returns values collection
+for(Integer pin: cities.values()) {
+  System.out.println(pin);
+}
+
+//entrySet() - Returns a set of Map.Entry<K,V> objects
+for(Map.Entry<String,Integer> entry: cities.entrySet()) {
+      System.out.println(entry.getKey() + " " + entry.getValue());
+}
+
+
+//Remove an entry
+//remove(key)
+
+cities.remove("mehsana"); // not found 
+cities.remove("Patan"); // deleted
+System.out.println("After deletion.");
+for(String city: cities.keySet()){
+  System.out.println(city + "  : " + cities.get(city));
+}
+
+Example: Represent countries & respective states.
+
+         HashMap<String, HashSet<String>> countries=new HashMap<>();
+         countries.put("India", new HashSet<>());
+         countries.put("Nepal", new HashSet<>());
+         
+         //add states
+         countries.get("India").add("Guj");
+         countries.get("India").add("Raj");
+         countries.get("Nepal").add("Kat");
+         countries.get("India").add("Mah");
+         countries.get("Nepal").add("Kit");
+         
+         for(String country: countries.keySet()) {
+             System.out.println(country);
+             for(String state: countries.get(country)) {
+                 System.out.println("\t\t" + state);
+             }
+         }
+
+Example: Represent countries,states and cities
+
+HashMap<String, HashMap<String, HashSet<String>>> countries = new HashMap<>();
+......
+
+
+java.util.Properties - a specialized Map of strings
+======================================================
+Properties class is widely used to represent "settings" data in Java environment and applications. In Java platforms, settings data are persisted into a file and this file has generally .properties extension.
+
+
+Read Java Environment settings
+--------------------------------
+System.getProperties() and System.getProperty("prop-name") methods returns environment collection or value of specified property respectively.
+
+Example:
+
+         //List of properties :  keys-values
+         Properties props =System.getProperties();
+         for(Object key: props.keySet()) {
+             System.out.println(key + " : " + props.get(key));
+         }
+         //Read a specific property value
+         System.out.println(System.getProperty("user.dir"));
+         System.out.println(System.getProperty("user.home"));
+ 
+Example: Properties of user-defined data
+
+Properties props= new Properties();
+
+//use put(k,v) or setProperty(k,v) method 
+props.put("username","admin");
+props.setProperty("password","admin,1234");
+props.put("server","192.123.2.1");
+
+//read via get(k) or getProperty(k)
+System.out.println( props.get("username") );
+System.out.println( props.getProperty("password") );
+
+
+

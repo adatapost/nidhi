@@ -1,0 +1,284 @@
+ java.io - Device IO APIs
+ =====================================================================================
+ The java.io package includes device Input/Output and file system classes. In this
+ package we have two types of device IO (Device IO means these set of classes can be
+ used with any device - keyboard, mouse, disk, RAM, Network, Encryption (Cipher),  Encoding, Zip etc).
+ 
+   1. Byte-oriented stream and
+   2. Char-oriented stream
+
+ Byte-oriented stream APIs allow us to read from or write into a device byte by byte (or array of bytes).
+
+ Char-oriented stream APIs allow us to read from or write into a device char by char (2 bytes or 1 byte) or array of chars. It is also known as Text-oriented stream.
+
+ Byte-oriented stream					Char-oriented stream
+ ===================================================================================
+ java.io.InputStream and java.io.OutputStream    java.io.Reader & java.io.Writer
+ are two abstract classes defines a              are two abstract classes which
+ byte-oriented stream behavior.                  defines a char-oriented behavior.
+
+ InputStream means to read from device and       As per name suggest, the Reader reads
+ OutputStream means to write into the device.    stream and the Writer writes.
+
+ Sub-classes of these two classes are		 Sub-classes of these two classes 
+ exists into different packages of               also exists in diff packages of
+ java platforms.                                 java platforms
+
+ java.io.FileOutputStream                        java.io.FileWriter 
+ java.io.FileInputStream  for disk device        java.io.FileReaer for disk device
+
+ java.io.ByteArrayInputStream                    java.io.CharArrayWriter 
+ java.io.ByteArrayOutputStream for RAM device    java.io.CharArrayReader for RAM
+
+and packages like - java.nio, java.crypto, java.util.zip, java.net, javax.servlet and
+many more have sub-classes of byte & char oriented classes.
+
+Basics of byte or char streams - By default char or byte oriented stream uses different kind of devices and they have different scale of speed - either slow or fast relatively.
+
+     Example:
+
+   | Program | ---->  | Disk |
+   |         | <----  |      |
+
+     Disk are slower than RAM (program) so when we use direct device, our program
+     has to wait because program is loaded into RAM and is more faster than disk.
+
+To remove this barier, we have "Buffered" classes which sits between "program" and "devices".
+
+   |Program|------>| Buffer | ------> |Disk |
+   |       |<----- | (RAM)  | <-----  |     |
+
+ Note: Network devices are far slower then disk.
+
+In java.io package we have,
+   java.io.BufferedInputStream
+   java.io.BufferedOutputStream
+   java.io.BufferedReader and
+   java.io.BufferedWriter classes.
+
+It is the "bad" practice to not to use "buffer", so always use "Buffer" APIs backed by the devices.
+
+
+Dispose the stream objects gracefully
+-----------------------------------------
+Never let the object of stream without calling the "close()" method. If you do so (without calling close()), your program/app might a victim of "memory-leaks" and it affect the IO performance and also unstable the operating system too.
+
+You can choose one of the following ways to call the close() method.
+
+1. using try..catch..finally
+
+   InputStream  obj = null;
+   try{
+      ......
+      ......
+    }catch(Exception ex) {
+      ......
+    }finally {
+      if(obj!=null) {
+         try{
+            obj.close();
+         }catch(Exception ex) {
+            /* */
+         }
+       }
+     }//end finally  
+
+2. using try-with-resources
+   try(InputStream obj =........) {
+      .....
+   }catch(Exception ex) {
+      /* */
+   }
+
+Or
+
+   try(InputStream obj =........) {
+      try(OutputStream obj1....) {
+          ....
+      }
+   }catch(Exception ex) {
+      /* */
+   }
+
+Example: (Without buffered) - Write some bytes into disk
+
+ try(FileOutputStream out = new FileOutputStream("sample.txt")) {
+    //write bytes
+    out.write(65); // any value between -128 to 127 (0-255)
+    out.write(66);
+    out.write(67);
+
+    //write byte array
+    byte []array = "Hello World".getBytes();
+    out.write(array);
+ }catch(Exception ex) {
+    System.out.println("Error while creating/writing stream." + ex);
+ }
+  
+Example: With buffer
+
+ try(BufferedOutputStream out=
+      new BufferedOutputStream(new FileOutputStream("sample.txt"))) {
+    ..... as per previous example....
+ }catch(Exception ex) {
+    System.out.println("Error while creating/writing stream." + ex);
+ }
+
+Example: Read a file content
+
+try(BufferedInputStream in = new BufferedInputStream(new FileInputStream("sample.txt"))) {
+     System.out.println( in.read() ); //read 1st byte
+     System.out.println( in.read() ); //read 2nd byte
+
+     //read all bytes
+     int b = 0;
+     while( (b=in.read()) !=-1) {
+         System.out.println(b);
+     }
+}catch(Exception ex) {
+  System.out.println(ex);
+}
+
+
+Reading & writing primitive values - DataInputStream and DataOutputStream classes
+====================================================================
+
+These two classes uses "any" InputStream or OutputStream as a backing store and they allow us to read or write primitive values like int, float, double etc respectively.
+
+DataOutputStream takes primitive values, break them into byte arrays and write them into the "stream". The DataInputStream read bytes from the "stream", formulate the primitive value and return them to a program.
+
+Example:
+
+         try(DataOutputStream out=
+                 new DataOutputStream(
+                         new FileOutputStream("d:/javaprg/emp.txt"))){
+             out.writeInt(100000);
+             out.writeDouble(1.1);
+             out.writeUTF("Hello");
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+
+         //Read values
+         try(DataInputStream in=
+                 new DataInputStream(
+                         new FileInputStream("d:/javaprg/emp.txt"))){
+              System.out.println(in.readInt());
+              System.out.println(in.readDouble());
+              System.out.println(in.readUTF());
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+
+Write & read custom objects - Serialization & Deserialization
+====================================================================
+
+Serialization - To persists data or objects into the underlying stream is called
+		serialization.
+
+Deserialization - To form an object via the stream is called "Deserialization".
+
+We have "ObjectInputStream" and "ObjectOutputStream" to perform serialization/deserialization. Note that these classes only works with a datatype/class which implements java.io.Serializable interface. The JVM stops serialization if an object is not "Serializable".
+
+Serilizable interface has "no" method declaration. It is used to instructs the JVM that this class can be serialize. In Java platforms, an interface without any method
+declaration is known as "Marker Interface".
+
+Example: 
+public class Emp implements Serializable
+
+ {
+    private int id;
+    private String name;
+    //add getter/setter/constructors
+    ....
+}
+
+and code in main:
+
+       try(ObjectOutputStream out=
+                 new ObjectOutputStream(
+                         new FileOutputStream("d:/javaprg/emp.txt"))){
+              Emp emp=new Emp(100,"Raj");
+              out.writeObject(emp);
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+         try(ObjectInputStream in=
+                 new ObjectInputStream(
+                         new FileInputStream("d:/javaprg/emp.txt"))){
+               Emp p = (Emp) in.readObject();
+               System.out.println(p.getId() + " " + p.getName());
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+
+Prevent a field to be serialized using "transient" keyword
+------------------------------------------------------------
+The JVM skip "transient" fields while serialize an object. You can declare fields as a transient. For example,
+
+   private transient String name;  in an Emp class and see what  happens?
+
+Read/write block of bytes - Never try to read/write stream byte by byte. Always use "array of bytes(block of bytes)".
+================================================
+
+We will use  "int read(byte[])" method to read an array of bytes and returns count of read bytes. In order to write some bytes, we will use 
+   "write(byte[],start/offset,count)" method.
+
+Example: Assume that we've 12 bytes file (emp.txt)
+
+
+          try(BufferedInputStream in=
+                 new BufferedInputStream(
+                         new FileInputStream("d:/javaprg/emp.txt"))){
+               byte []buffer = new byte[5]; //5 bytes buffer
+               int reads = 0;
+               
+               while(  (reads = in.read(buffer))>0 ) {
+                   System.out.println(reads + " " + new String(buffer,0,reads));
+               }
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+
+Example: Copy a file
+
+         try(BufferedInputStream in=
+                 new BufferedInputStream(
+                         new FileInputStream("d:/javaprg/sample.zip"))){
+            try(BufferedOutputStream out=
+                 new BufferedOutputStream(
+                         new FileOutputStream("d:/javaprg/sample1.zip"))){
+
+               byte []buffer = new byte[4096]; //4 KB
+               int reads = 0;
+               
+               while(  (reads = in.read(buffer))>0 ) {
+                   out.write(buffer,0,reads);
+               }
+            }
+         }catch(Exception ex){
+             System.out.println(ex);
+         }
+Example: Download a file (Network stream)
+
+We will use java.net.URL and java.net.URLConnection classes to have an InputStream or OutputStream as a backing store (Also called Network stream).
+
+         try {
+            URL url = new URL("https://www.xyz.com/sample.zip");
+            URLConnection cn = url.openConnection();
+            try (BufferedInputStream in
+                    = new BufferedInputStream(cn.getInputStream())) {
+                try (BufferedOutputStream out
+                        = new BufferedOutputStream(
+                                new FileOutputStream("d:/javaprg/sample1.zip"))) {
+                            byte[] buffer = new byte[8192]; //8 KB
+                            int reads = 0;
+
+                            while ((reads = in.read(buffer)) > 0) {
+                                out.write(buffer, 0, reads);
+                            }
+                 }//end-try
+            }//end-try
+         } catch (Exception ex) {
+            System.out.println(ex);
+         }
